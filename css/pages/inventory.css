@@ -30,3 +30,197 @@
   background: #1e293b;
   color: white;
 }
+
+
+/* Desktop styles above */
+
+/* ==============================
+   MOBILE RESPONSIVE STYLES
+============================== */
+
+#itemsContainer {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+  table {
+    display: none;
+  }
+
+  #itemsContainer {
+    display: block;
+    padding: 10px;
+  }
+
+  /* CARD */
+  .item-card {
+    background: #1e293b;
+    border-radius: 14px;
+    padding: 12px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.1s;
+  }
+
+  .item-card:active {
+    transform: scale(0.98);
+  }
+
+  /* IMAGE */
+  .card-image {
+    position: relative;
+  }
+
+  .card-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  .image-count {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 12px;
+  }
+
+  /* TITLE */
+  .card-title {
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 15px;
+  }
+
+  /* PRICES */
+  .card-prices {
+    margin-top: 10px;
+  }
+
+  .card-prices .row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+
+  .profit {
+    margin-top: 6px;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .profit.pos {
+    color: #22c55e;
+  }
+
+  .profit.neg {
+    color: #ef4444;
+  }
+
+  /* CONTROLS */
+  .card-controls {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+  }
+
+  .card-controls select {
+    flex: 1;
+    padding: 6px;
+    border-radius: 8px;
+    background: #0f172a;
+    color: white;
+  }
+
+  /* META */
+  .card-meta {
+    margin-top: 10px;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    color: #94a3b8;
+  }
+
+  /* ACTIONS */
+  .card-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+  }
+
+  .card-actions button {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  /* Colors */
+  .btn.edit {
+    background: #2563eb;
+    color: white;
+  }
+
+  .btn.delete {
+    background: #dc2626;
+    color: white;
+  }
+
+  .btn.link {
+    background: #16a34a;
+    color: white;
+  }
+
+  .btn:hover {
+    opacity: 0.85;
+  }
+
+  /* PLATFORM */
+  .card-platform {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+
+  /* arrows */
+  .arrow-btn {
+    background: #0f172a;
+    border: none;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+
+  /* center label */
+  .platform-center {
+    flex: 1;
+    text-align: center;
+  }
+
+  .platform-label {
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+
+  /* platform colors */
+  .platform-label.wallapop {
+    color: #22c55e;
+  }
+
+  .platform-label.vinted {
+    color: #a855f7;
+  }
+
+  .platform-label.milanuncios {
+    color: #f59e0b;
+  }
+
+}

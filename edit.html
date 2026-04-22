@@ -7,6 +7,7 @@
     <title>Edit Item</title>
 
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/pages/edit.css">
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -43,6 +44,8 @@
 
                 <h3>Información del producto</h3>
 
+                <div class="section-divider"></div>
+
                 <!-- TITLE -->
                 <div class="floating-group">
                     <input id="title" placeholder=" " maxlength="60">
@@ -53,6 +56,12 @@
                 <div class="floating-group">
                     <textarea id="description" placeholder=" "></textarea>
                     <label for="description">Descripción</label>
+                </div>
+
+                <!-- URL -->
+                <div class="floating-group">
+                    <input id="url" placeholder=" ">
+                    <label>Link del anuncio</label>
                 </div>
 
                 <!-- PRICE, BUY, FEES -->
@@ -72,6 +81,9 @@
                         <label>Comisión</label>
                     </div>
                 </div>
+
+                <h3>Estado y venta</h3>
+                <div class="section-divider"></div>
 
                 <!-- STATUS, SOLD PLATFORM -->
                 <div class="grid-2">
@@ -110,7 +122,9 @@
 
             </div>
 
-            <button onclick="saveItem()">💾 Save</button>
+            <div class="form-actions">
+                <button class="save-btn" onclick="saveItem()">💾 Guardar cambios</button>
+            </div>
 
         </div>
     </div>

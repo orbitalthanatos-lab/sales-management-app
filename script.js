@@ -4,7 +4,7 @@
 
 // import { db, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "./firebase.js";
 import { calculateProfitValue, calculateStats, formatDate, getDaysSince, detectPlatform } from "./items.logic.js";
-import { renderInventoryStats, renderTableUI } from "./items.ui.js";
+import { renderInventoryStats, renderTableUI, renderMobileCards } from "./items.ui.js";
 import { setupFilters } from "./items.events.js";
 import { createCard } from "./ui.components.js";
 import { parseItemFile } from "./items.logic.js";
@@ -444,15 +444,19 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==============================
 
   function renderTable() {
-    renderTableUI(
-      items,
-      PLATFORMS,
-      { formatDate, getDaysSince },
-      { searchQuery, statusFilter }
-    );
+
+    if (window.innerWidth < 768) {
+      renderMobileCards(items);
+    } else {
+      renderTableUI(
+        items,
+        PLATFORMS,
+        { formatDate, getDaysSince },
+        { searchQuery, statusFilter }
+      );
+    }
 
     lucide.createIcons();
-
     updateStats();
   }
 
@@ -471,23 +475,37 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==============================
 
   window.switchPlatform = async (id, platform) => {
+    const platforms = ["wallapop", "vinted", "milanuncios"];
+
     const item = items.find(i => i.id === id);
 
     // Prevent switching if sold
     if (!item || item.status === "Vendido") return;
 
+    let current = item.selectedPlatform || "wallapop";
+    let index = platforms.indexOf(current);
+
+    // 🔥 HANDLE ARROWS
+    if (platform === "next") {
+      index = (index + 1) % platforms.length;
+    } else if (platform === "prev") {
+      index = (index - 1 + platforms.length) % platforms.length;
+    } else {
+      index = platforms.indexOf(platform);
+    }
+
+    const newPlatform = platforms[index];
+
     try {
-      // 🔥 SAVE TO SUPABASE
       const { error } = await supabase
         .from("items")
         .update({
-          selected_platform: platform
+          selected_platform: newPlatform
         })
         .eq("id", id);
 
       if (error) throw error;
 
-      // 🔄 Reload updated data
       await loadItems();
 
     } catch (error) {
@@ -549,6 +567,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   loadItems();
+
+  // ==============================
+  // HANDLE RESIZE
+  // ============================== 
+
+  window.addEventListener("resize", () => {
+    renderTable();
+  });
 
   // ==============================
   // GLOBAL EXPORTS

@@ -1,4 +1,5 @@
 import { supabase } from "./supabase.js";
+import { detectPlatform } from "./items.logic.js";
 
 let currentItem = null;
 let currentPlatform = "wallapop";
@@ -84,7 +85,8 @@ async function loadItem() {
                 description: p.description || "",
                 price: p.price || 0,
                 fees: p.fees || 0,
-                buy: p.buy || 0
+                buy: p.buy || 0,
+                url: p.url || ""
             };
         });
 
@@ -124,6 +126,9 @@ function loadPlatformData() {
 
     document.getElementById("dateSold").value =
         currentItem.date_sold ?? "";
+
+    document.getElementById("url").value =
+        draft[currentPlatform]?.url || "";
 }
 
 // ==============================
@@ -178,7 +183,7 @@ window.saveItem = async () => {
                 status,
                 sold_platform: soldPlatform,
                 date_published: datePublished,
-                date_sold: dateSold,
+                date_sold: dateSold
             })
             .eq("id", currentItem.id);
 
@@ -193,7 +198,8 @@ window.saveItem = async () => {
                     description: data.description,
                     price: data.price,
                     fees: data.fees,
-                    buy: data.buy
+                    buy: data.buy,
+                    url: data.url
                 })
                 .eq("item_id", currentItem.id)
                 .eq("platform", platform);
@@ -365,6 +371,36 @@ function bindInputs() {
 
     document.getElementById("dateSold").addEventListener("change", e => {
         currentItem.date_sold = e.target.value || null;
+    });
+
+    document.getElementById("url").addEventListener("input", e => {
+        const url = e.target.value;
+
+        // Save normally
+        draft[currentPlatform].url = url;
+
+        // 🔥 DETECT PLATFORM
+        const detected = detectPlatform(url);
+
+        if (detected && detected !== currentPlatform) {
+
+            // Save current tab data first
+            draft[currentPlatform].url = url;
+
+            // Switch platform
+            currentPlatform = detected;
+
+            // Update active tab UI
+            document.querySelectorAll(".tab").forEach(t => {
+                t.classList.remove("active");
+            });
+
+            const newTab = document.querySelector(`[data-tab="${detected}"]`);
+            if (newTab) newTab.classList.add("active");
+
+            // Reload inputs for new platform
+            loadPlatformData();
+        }
     });
 }
 

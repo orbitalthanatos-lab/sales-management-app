@@ -103,14 +103,14 @@ export function renderTableUI(items, PLATFORMS, helpers, filters) {
     else if (item.status === "Reservado") row.style.backgroundColor = "#3f2a00";
 
     // Calculate days since published
-let days = "-";
+    let days = "-";
 
-if (item.status === "Vendido" && item.datePublished && item.dateSold) {
-  const start = new Date(item.datePublished);
-  const end = new Date(item.dateSold);
+    if (item.status === "Vendido" && item.datePublished && item.dateSold) {
+      const start = new Date(item.datePublished);
+      const end = new Date(item.dateSold);
 
-  days = Math.floor((end - start) / (1000 * 60 * 60 * 24));
-}
+      days = Math.floor((end - start) / (1000 * 60 * 60 * 24));
+    }
 
     // Generate "Vendido en" options based on active platforms
     const soldPlatformOptions = Object.keys(PLATFORMS)
@@ -254,6 +254,128 @@ if (item.status === "Vendido" && item.datePublished && item.dateSold) {
 
     tableBody.appendChild(row);
   });
+}
+
+// ==============================
+//  MOBILE CARD RENDERING
+// ==============================
+
+export function renderMobileCards(items) {
+  const container = document.getElementById("itemsContainer");
+
+  if (!container) return;
+
+  container.innerHTML = items.map((item, index) => {
+
+    const selected =
+      item.status === "Vendido"
+        ? item.soldPlatform || item.selectedPlatform || "wallapop"
+        : item.selectedPlatform || "wallapop";
+
+    const data = item.platformData?.[selected] || {};
+
+    const buy = data.buy ?? 0;
+    const price = data.price ?? 0;
+    const fees = data.fees ?? 0;
+    const profit = price - buy - fees;
+
+    return `
+      <div class="item-card">
+
+        <!-- IMAGE -->
+        <div class="card-image">
+          <img src="${getImage(item)}" class="card-img">
+          ${item.images?.length > 1 ? `<div class="image-count">+${item.images.length - 1}</div>` : ""}
+        </div>
+
+        <!-- PLATFORM SWITCHER -->
+        <div class="card-platform" onclick="event.stopPropagation()">
+
+          <button class="arrow-btn" onclick="switchPlatform('${item.id}', 'prev')">←</button>
+
+          <div class="platform-center">
+            <span class="platform-label ${selected}">
+              ${selected}
+            </span>
+          </div>
+
+          <button class="arrow-btn" onclick="switchPlatform('${item.id}', 'next')">→</button>
+
+        </div>
+
+        <!-- TITLE -->
+        <div class="card-title">
+          ${data.title || ""}
+        </div>
+
+        <!-- PRICES -->
+        <div class="card-prices">
+          <div class="row">
+            <span>Venta</span>
+            <span>${price.toFixed(2)} €</span>
+          </div>
+          <div class="row">
+            <span>Compra</span>
+            <span>${buy.toFixed(2)} €</span>
+          </div>
+          <div class="row">
+            <span>Comisión</span>
+            <span>${fees.toFixed(2)} €</span>
+          </div>
+
+          <div class="profit ${profit >= 0 ? "pos" : "neg"}">
+            ${profit >= 0 ? "+" : ""}${profit.toFixed(2)} €
+          </div>
+        </div>
+
+        <!-- CONTROLS -->
+        <div class="card-controls" onclick="event.stopPropagation()">
+          <select onchange="updateStatus('${item.id}', this.value)">
+            <option ${item.status === "Disponible" ? "selected" : ""}>Disponible</option>
+            <option ${item.status === "Reservado" ? "selected" : ""}>Reservado</option>
+            <option ${item.status === "Vendido" ? "selected" : ""}>Vendido</option>
+          </select>
+
+          <select onchange="updateSoldPlatform('${item.id}', this.value)">
+            <option value="">-</option>
+            <option value="wallapop" ${item.soldPlatform === "wallapop" ? "selected" : ""}>Wallapop</option>
+            <option value="vinted" ${item.soldPlatform === "vinted" ? "selected" : ""}>Vinted</option>
+            <option value="milanuncios" ${item.soldPlatform === "milanuncios" ? "selected" : ""}>Milanuncios</option>
+          </select>
+        </div>
+
+        <!-- META -->
+        <div class="card-meta">
+          <span>📅 ${item.datePublished || "-"}</span>
+          <span>⏱ ${item.datePublished && item.dateSold
+        ? Math.floor((new Date(item.dateSold) - new Date(item.datePublished)) / (1000 * 60 * 60 * 24))
+        : "-"
+      }</span>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="card-actions" onclick="event.stopPropagation()">
+
+          <button class="btn edit" onclick="editItem('${item.id}')">
+            ✏️ Editar
+          </button>
+
+          <button class="btn delete" onclick="deleteItem('${item.id}')">
+            🗑 Eliminar
+          </button>
+
+          ${item.links?.[selected]
+                ? `<button class="btn link" onclick="window.open('${item.links[selected]}', '_blank')">
+                🔗 Link
+              </button>`
+                : ""
+              }
+
+        </div>
+
+      </div>
+    `;
+  }).join("");
 }
 
 // ==============================

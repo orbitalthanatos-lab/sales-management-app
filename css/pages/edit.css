@@ -1,12 +1,15 @@
 .edit-page {
-  background: #0f172a; /* same as your app */
+  background: #0f172a;
+  /* same as your app */
   min-height: 100vh;
   padding: 40px 20px;
 }
 
 .edit-container {
-  max-width: 650px;        /* 🔥 THIS IS THE KEY */
-  margin: 0 auto;          /* center horizontally */
+  max-width: 650px;
+  /* 🔥 THIS IS THE KEY */
+  margin: 0 auto;
+  /* center horizontally */
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -66,7 +69,7 @@
   transform: scale(1.1);
 }
 
-#imageManager + button {
+#imageManager+button {
   margin-top: 12px;
 }
 
@@ -82,7 +85,7 @@
   width: 28px;
   height: 28px;
 
-  background: rgba(255,255,255,0.9);
+  background: rgba(255, 255, 255, 0.9);
   color: #111827;
 
   border: none;
@@ -97,13 +100,14 @@
 
   cursor: pointer;
 
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 
   transition: all 0.2s ease;
 }
 
 .delete-btn:hover {
-  background: #ef4444; /* subtle red on hover */
+  background: #ef4444;
+  /* subtle red on hover */
   color: white;
   transform: scale(1.1);
 }
@@ -111,7 +115,7 @@
 /* ==============================
    TABS
    ============================== */
-   
+
 .grid-3 {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -208,7 +212,8 @@
 
 .select-group select {
   width: 100%;
-  padding: 26px 12px 8px; /* 👈 space for label */
+  padding: 26px 12px 8px;
+  /* 👈 space for label */
   border-radius: 10px;
   border: 1px solid #334155;
   background: #0f172a;
@@ -221,4 +226,82 @@
 .select-group select:focus {
   border-color: #3b82f6;
   outline: none;
+}
+
+/* ==============================
+   EDIT PAGE PREMIUM UI
+============================== */
+
+.edit-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 15px;
+}
+
+/* Sections */
+.form-card {
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 12px;
+  background: #1e293b;
+}
+
+.section-divider {
+  height: 1px;
+  background: #334155;
+  margin: 10px 0 15px;
+}
+
+/* Inputs spacing */
+.floating-group,
+.select-group {
+  margin-bottom: 5px;
+}
+
+/* Save button */
+.form-actions {
+  margin-top: 20px;
+}
+
+.save-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  background: #22c55e;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+}
+
+/* Disabled fields (important UX) */
+input:disabled,
+select:disabled,
+textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .grid-2 {
+    display: flex;
+    flex-direction: column;
+  }
+
+}
+
+/* 🔥 separate media query (NOT nested) */
+@media (max-width: 480px) {
+
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
 }
