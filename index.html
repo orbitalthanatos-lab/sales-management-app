@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <!-- Character Encoding -->
   <meta charset="UTF-8">
@@ -23,18 +24,19 @@
 
   <script src="https://unpkg.com/lucide@latest"></script>
   <script type="module" src="./script.js"></script>
-  
+
 </head>
+
 <body>
 
   <div id="imageViewer" class="modal hidden">
     <div class="modal-content viewer-modal">
 
       <span id="closeViewer" class="close">&times;</span>
-      
+
       <!-- COUNTER -->
       <div id="viewerCounter" style="margin-top:8px; font-size:14px; color:#94a3b8;"></div><br>
-      
+
       <!-- MAIN IMAGE -->
       <img id="viewerImg" class="viewer-image">
 
@@ -50,7 +52,8 @@
       </div>
 
       <!-- THUMBNAILS -->
-      <div id="viewerThumbnails" style="margin-top:15px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;"></div>
+      <div id="viewerThumbnails"
+        style="margin-top:15px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;"></div>
 
     </div>
   </div>
@@ -80,12 +83,17 @@
       <textarea id="importText" rows="10" placeholder="Paste your data here..."></textarea>
 
       <button onclick="importFromText()">Import</button>
+
+      <button id="masterPromptBtn" class="btn-secondary">
+        Copy Prompt
+      </button>
+
     </div>
 
     <!-- 🔍 CONTROLS -->
     <div class="table-controls">
       <input type="text" id="searchInput" placeholder="Buscar artículos...">
-      
+
       <select id="statusFilter">
         <option value="">Todos</option>
         <option value="Disponible">Disponible</option>
@@ -150,16 +158,11 @@
   <!-- ==============================
        HIDDEN FILE INPUT
        ============================== -->
-       
-  <input 
-    type="file" 
-    id="imageUploadInput" 
-    multiple 
-    accept="image/*" 
-    style="display:none"
-  />
+
+  <input type="file" id="imageUploadInput" multiple accept="image/*" style="display:none" />
 
   <script type="module" src="script.js"></script>
 
 </body>
+
 </html>

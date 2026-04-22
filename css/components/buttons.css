@@ -2,7 +2,7 @@
    BUTTON COMPONENT
 ============================== */
 
-button {
+button, #masterPromptBtn {
   background-color: #3b82f6;
   border: none;
   padding: 10px 15px;
@@ -12,6 +12,6 @@ button {
   transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-button:hover {
+button:hover, #masterPromptBtn:hover {
   background-color: #2563eb;
 }

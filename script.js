@@ -830,9 +830,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  document.getElementById("masterPromptBtn").addEventListener("click", async () => {
+    try {
+      const res = await fetch("https://raw.githubusercontent.com/orbitalthanatos-lab/master-prompt/refs/heads/main/prompt.txt");
+      const text = await res.text();
+
+      await navigator.clipboard.writeText(text);
+
+      alert("Prompt copied!");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to copy prompt");
+    }
+  });
+
   window.importFromText = importFromText;
   window.loadItems = loadItems;
-
-
 
 });
