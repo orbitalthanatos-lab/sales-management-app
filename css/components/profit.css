@@ -1,0 +1,21 @@
+/* ==============================
+   PROFIT DISPLAY
+============================== */
+
+.profit {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.profit span {
+  color: #22c55e;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.profit span small {
+  font-size: 12px;
+  opacity: 0.7;
+}

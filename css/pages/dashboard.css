@@ -1,0 +1,80 @@
+/* ==============================
+   DASHBOARD - TOP ITEMS
+============================== */
+
+#topItemsList {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.top-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.top-item:last-child {
+  border-bottom: none;
+}
+
+/* ==============================
+   CHARTS (Dashboard)
+============================== */
+
+canvas {
+  margin-top: 15px;
+}
+
+/* ==============================
+   SALES GALLERY
+============================== */
+
+.sales-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.sale-card {
+  background: #1e293b;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 10px;
+  transition: all 0.2s ease;
+}
+
+.sale-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+}
+
+.sale-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.sale-card h3 {
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+.sale-card p {
+  font-size: 12px;
+  margin: 2px 0;
+}
+
+.sale-card .profit {
+  font-weight: bold;
+  color: #22c55e;
+}
+
+.sale-card small {
+  display: block;
+  margin-top: 6px;
+  color: #94a3b8;
+  font-size: 11px;
+}

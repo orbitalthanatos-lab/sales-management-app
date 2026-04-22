@@ -1,0 +1,279 @@
+/* ==============================
+   TABLE (SaaS STYLE)
+============================== */
+
+/* TABLE STRUCTURE */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px; /* space between rows */
+  background: transparent;
+}
+
+/* HEADER */
+th {
+  background-color: transparent;
+  color: #94a3b8;
+  font-weight: 500;
+  font-size: 13px;
+  text-align: center;
+  padding: 10px;
+}
+
+/* ROW CARD STYLE */
+tr {
+  background-color: #1e293b;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+/* ROUNDED ROWS */
+tr td:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+tr td:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+/* CELLS */
+td {
+  padding: 16px 12px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+/* HOVER EFFECT */
+tr:hover {
+  background-color: #273449;
+  transform: scale(1.005);
+}
+
+/* IMAGE STYLES */
+td img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.2s;
+}
+
+td img:hover {
+  transform: scale(1.05);
+}
+
+td img[title] {
+  opacity: 0.85;
+  transition: all 0.2s;
+}
+
+td img[title]:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+td img[onclick]:hover {
+  transform: scale(1.1);
+}
+
+/* PROFIT EMPHASIS */
+td:nth-child(5) {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+/* ACTION BUTTONS */
+td button {
+  margin: 0 2px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* STATUS DROPDOWN */
+td select {
+  background: #334155;
+  border: none;
+  padding: 6px;
+  border-radius: 6px;
+  color: white;
+}
+
+/* PLATFORM BADGES */
+td span {
+  display: inline-block;
+  padding: 3px 7px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* ==============================
+   STICKY HEADER
+============================== */
+
+thead th {
+  position: sticky;
+  top: 0;
+  background-color: #0f172a; /* match background */
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  z-index: 5;
+}
+
+/* ==============================
+   IMAGE HOVER EFFECT
+============================== */
+
+td img {
+  transition: transform 0.2s ease;
+}
+
+td img:hover {
+  transform: scale(1.1);
+}
+
+/* ==============================
+   TABLE UTILITIES
+============================== */
+
+/* Item ID column */
+.item-id {
+  font-weight: bold;
+  color: #3b82f6;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Header alignment */
+th:first-child {
+  text-align: center;
+  width: 20px;
+}
+
+/* Prevent wrapping in financial columns */
+.nowrap {
+  white-space: nowrap;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Column widths */
+.col-buy { min-width: 90px; }
+.col-sale { min-width: 90px; }
+.col-fees { min-width: 100px; }
+.col-profit { min-width: 110px; }
+
+/* ==============================
+   TABLE ALIGNMENT & STATES
+============================== */
+
+/* Date column alignment */
+.date-cell {
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* Ensure vertical alignment in tables */
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+/* Sold row styling */
+.sold-row {
+  cursor: not-allowed !important;
+  opacity: 0.9;
+}
+
+/* "Vendido en" column alignment */
+.select-cell {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.select-cell select {
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+/* ==============================
+   FIXED WIDTH FOR TITLE COLUMN
+============================== */
+
+th:nth-child(3),
+td:nth-child(3) {
+  width: 250px;
+  min-width: 250px;
+  max-width: 250px;
+  white-space: normal; /* Prevents overflow issues */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==============================
+   ACTION BUTTONS (PRO UI)
+============================== */
+
+.actions-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* optional: center whole group */
+  gap: 6px;
+}
+
+/* Button */
+.action-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  display: inline-flex;          /* 🔥 IMPORTANT */
+  align-items: center;           /* 🔥 vertical center */
+  justify-content: center;       /* 🔥 horizontal center */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;                    /* 🔥 remove default spacing */
+  line-height: 0;                /* 🔥 prevents vertical offset */
+}
+
+/* Lucide SVG fix */
+.action-btn svg {
+  width: 18px;
+  height: 18px;
+  display: block;                /* 🔥 removes inline offset */
+}
+
+/* ICON SIZE */
+.action-btn i {
+  width: 18px;
+  height: 18px;
+}
+
+/* Hover */
+.action-btn:hover {
+  background-color: rgba(255,255,255,0.08);
+  transform: translateY(-1px) scale(1.05);
+}
+
+/* Edit */
+.action-btn.edit:hover {
+  color: #22c55e;
+}
+
+/* Delete */
+.action-btn.delete:hover {
+  color: #ef4444;
+}
+
+/* Upload */
+.action-btn.upload:hover {
+  color: #3b82f6;
+}

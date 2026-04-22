@@ -1,0 +1,17 @@
+/* ==============================
+   BUTTON COMPONENT
+============================== */
+
+button {
+  background-color: #3b82f6;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+button:hover {
+  background-color: #2563eb;
+}

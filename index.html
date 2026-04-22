@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- Character Encoding -->
+  <meta charset="UTF-8">
+
+  <!-- Mobile Responsiveness -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Inventario</title>
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="../css/main.css">
+
+  <!-- Prevent favicon errors -->
+  <link rel="icon" href="data:,">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon.png">
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script type="module" src="./script.js"></script>
+  
+</head>
+<body>
+
+  <div id="imageViewer" class="modal hidden">
+    <div class="modal-content viewer-modal">
+
+      <span id="closeViewer" class="close">&times;</span>
+      
+      <!-- COUNTER -->
+      <div id="viewerCounter" style="margin-top:8px; font-size:14px; color:#94a3b8;"></div><br>
+      
+      <!-- MAIN IMAGE -->
+      <img id="viewerImg" class="viewer-image">
+
+      <!-- NAV -->
+      <div class="viewer-navigation">
+        <button id="prevImg" class="viewer-arrow">
+          <img src="images/arrow-left.png" alt="Previous">
+        </button>
+
+        <button id="nextImg" class="viewer-arrow">
+          <img src="images/arrow-right.png" alt="Next" class="Next">
+        </button>
+      </div>
+
+      <!-- THUMBNAILS -->
+      <div id="viewerThumbnails" style="margin-top:15px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;"></div>
+
+    </div>
+  </div>
+
+
+  <!-- ==============================
+       MAIN CONTAINER
+       ============================== -->
+  <div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+      <h1>📦 Inventario</h1>
+
+      <div style="display:flex; gap:10px;">
+        <button onclick="window.location.href='dashboard.html'">📊 Dashboard</button>
+        <!-- <button onclick="window.location.href='sales.html'">🖼️ Sales Gallery</button> -->
+      </div>
+    </div>
+
+    <div class="stats" id="statsContainer"></div><br>
+
+    <!-- ➕ IMPORT BOX -->
+    <div class="import-box">
+      <h3>Paste Item</h3>
+
+      <textarea id="importText" rows="10" placeholder="Paste your data here..."></textarea>
+
+      <button onclick="importFromText()">Import</button>
+    </div>
+
+    <!-- 🔍 CONTROLS -->
+    <div class="table-controls">
+      <input type="text" id="searchInput" placeholder="Buscar artículos...">
+      
+      <select id="statusFilter">
+        <option value="">Todos</option>
+        <option value="Disponible">Disponible</option>
+        <option value="Reservado">Reservado</option>
+        <option value="Vendido">Vendido</option>
+      </select>
+    </div>
+
+    <!-- 🗂️ TABLE -->
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Imagen</th>
+          <th>Título</th>
+          <th>Descripción</th>
+          <th>Venta</th>
+          <th>Compra</th>
+          <th>Comisión</th>
+          <th>Beneficio</th>
+          <th>Estado</th>
+          <th>Plataformas</th>
+          <th>Vendido en</th>
+          <th>Fecha Publicada</th>
+          <th>Días</th>
+          <th>Fecha Venta</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+
+  </div>
+
+  <!-- ==============================
+       IMAGE PREVIEW MODAL
+       ============================== -->
+
+  <div id="imagePreviewModal" class="modal hidden">
+    <div class="modal-content" style="max-width:600px;">
+
+      <h3 style="margin-bottom:10px;">Preview Images</h3>
+
+      <div id="previewContainer" style="
+        display:flex;
+        flex-wrap:wrap;
+        gap:10px;
+        justify-content:center;
+        margin-bottom:15px;
+      "></div>
+
+      <div style="display:flex; justify-content:space-between;">
+        <button onclick="cancelUpload()">Cancel</button>
+        <button onclick="confirmUpload()">Upload</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==============================
+       HIDDEN FILE INPUT
+       ============================== -->
+       
+  <input 
+    type="file" 
+    id="imageUploadInput" 
+    multiple 
+    accept="image/*" 
+    style="display:none"
+  />
+
+  <script type="module" src="script.js"></script>
+
+</body>
+</html>

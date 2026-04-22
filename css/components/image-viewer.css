@@ -1,0 +1,77 @@
+/* ==============================
+   IMAGE VIEWER THUMBNAILS
+============================== */
+
+#viewerThumbnails img:hover {
+  transform: scale(1.1);
+  opacity: 1 !important;
+}
+
+/* ==============================
+   IMAGE VIEWER MODAL
+============================== */
+
+.viewer-modal {
+  width: min(900px, 95vw);
+  max-width: 90vw;
+  height: 650px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Main image */
+.viewer-image {
+  width: 100%;
+  height: 60vh;
+  max-height: 350px;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+/* Navigation */
+.viewer-navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 10px;
+}
+
+/* Arrows */
+.viewer-arrow {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.viewer-arrow img {
+  width: 32px;
+  height: 32px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.viewer-arrow:hover img {
+  transform: scale(1.1);
+  opacity: 0.8;
+}
+
+/* Counter */
+#viewerCounter {
+  font-size: 14px;
+  color: #94a3b8;
+  margin-bottom: 5px;
+}
+
+/* Thumbnails */
+#viewerThumbnails img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}

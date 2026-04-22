@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Item</title>
+
+    <link rel="stylesheet" href="css/main.css">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+    <div class="edit-page">
+        <div class="edit-container">
+
+            <div class="header">
+                <h1>✏️ Edit Item</h1>
+                <button onclick="window.history.back()">⬅ Back</button>
+            </div>
+
+            <!-- IMAGES -->
+            <div class="form-card">
+                <h3>Images</h3>
+                <div id="imageManager" class="image-manager"></div>
+                <button onclick="uploadImages()">📷 Add Images</button>
+                <input type="file" id="imageUploadInput" multiple hidden>
+            </div>
+
+            <!-- PLATFORM TABS -->
+            <div class="tabs">
+                <button class="tab active" data-tab="wallapop">Wallapop</button>
+                <button class="tab" data-tab="vinted">Vinted</button>
+                <button class="tab" data-tab="milanuncios">Milanuncios</button>
+            </div>
+
+            <!-- FORM -->
+
+            <div class="form-card">
+
+                <h3>Información del producto</h3>
+
+                <!-- TITLE -->
+                <div class="floating-group">
+                    <input id="title" placeholder=" " maxlength="60">
+                    <label for="title">Título</label>
+                </div>
+
+                <!-- DESCRIPTION -->
+                <div class="floating-group">
+                    <textarea id="description" placeholder=" "></textarea>
+                    <label for="description">Descripción</label>
+                </div>
+
+                <!-- PRICE, BUY, FEES -->
+                <div class="grid-3">
+                    <div class="floating-group">
+                        <input id="price" type="number" placeholder=" ">
+                        <label>Venta</label>
+                    </div>
+
+                    <div class="floating-group">
+                        <input id="buy" type="number" placeholder=" ">
+                        <label>Compra</label>
+                    </div>
+
+                    <div class="floating-group">
+                        <input id="fees" type="number" placeholder=" ">
+                        <label>Comisión</label>
+                    </div>
+                </div>
+
+                <!-- STATUS, SOLD PLATFORM -->
+                <div class="grid-2">
+                    <div class="select-group">
+                        <select id="status">
+                            <option>Disponible</option>
+                            <option>Reservado</option>
+                            <option>Vendido</option>
+                        </select>
+                        <label>Estado</label>
+                    </div>
+
+                    <div class="select-group">
+                        <select id="soldPlatform">
+                            <option value="">Seleccionar</option>
+                            <option value="wallapop">Wallapop</option>
+                            <option value="vinted">Vinted</option>
+                            <option value="milanuncios">Milanuncios</option>
+                        </select>
+                        <label>Vendido en</label>
+                    </div>
+                </div>
+
+                <!-- DATES -->
+                <div class="grid-2">
+                    <div class="floating-group">
+                        <input id="datePublished" type="date" placeholder=" ">
+                        <label>Fecha Publicada</label>
+                    </div>
+
+                    <div class="floating-group">
+                        <input id="dateSold" type="date" placeholder=" ">
+                        <label>Fecha Venta</label>
+                    </div>
+                </div>
+
+            </div>
+
+            <button onclick="saveItem()">💾 Save</button>
+
+        </div>
+    </div>
+
+    <script type="module" src="edit.js"></script>
+
+</body>
+
+</html>
