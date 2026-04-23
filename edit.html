@@ -19,8 +19,15 @@
         <div class="edit-container">
 
             <div class="header">
-                <h1 id="editTitle">✏️ Edit Item</h1>
-                <button onclick="window.history.back()">⬅ Back</button>
+                <div class="header-left">
+                    <h1 id="editTitle">✏️ Edit Item</h1>
+                    <span id="itemIdBadge" class="item-badge">item-000</span>
+                </div>
+
+                <div class="header-actions">
+                    <button class="btn secondary" onclick="window.history.back()">⬅ Back</button>
+                    <button class="btn primary" onclick="saveItem()">💾 Save</button>
+                </div>
             </div>
 
             <!-- IMAGES -->

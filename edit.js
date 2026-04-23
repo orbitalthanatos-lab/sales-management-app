@@ -46,10 +46,12 @@ async function loadItem() {
             images: item.images || []
         };
 
-        // 🔥 Set title with custom_id
         const titleEl = document.getElementById("editTitle");
-        if (titleEl && currentItem.custom_id) {
-            titleEl.innerText = `✏️ Edit Item (${currentItem.custom_id})`;
+        const badgeEl = document.getElementById("itemIdBadge");
+
+        if (currentItem.custom_id) {
+            if (titleEl) titleEl.innerText = `Edit Item`;
+            if (badgeEl) badgeEl.innerText = currentItem.custom_id;
         }
 
         const allPlatforms = ["wallapop", "vinted", "milanuncios"];
