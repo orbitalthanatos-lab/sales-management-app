@@ -168,7 +168,8 @@ function groupFilesByFolder(files) {
 
     for (const file of files) {
         const path = file.webkitRelativePath;
-        const folder = path.split("/")[0];
+        const parts = path.split("/");
+        const folder = parts.length > 1 ? parts[1] : parts[0];
 
         if (!groups[folder]) groups[folder] = [];
         groups[folder].push(file);
