@@ -1,8 +1,7 @@
 /* ==============================
-   STATS & CARDS COMPONENT
+   STATS LAYOUT
 ============================== */
 
-/* Stats Grid Layout */
 .stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -13,7 +12,11 @@
   align-items: stretch;
 }
 
-/* Card Base Style */
+
+/* ==============================
+   SHARED CARD BASE (DESKTOP STATS)
+============================== */
+
 .card {
   min-height: 180px;
   display: flex;
@@ -31,13 +34,12 @@
   overflow: hidden;
 }
 
-/* Hover Effect */
 .card:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(0,0,0,0.5);
 }
 
-/* Card Text Styles */
+/* Text */
 .card p {
   font-size: 11px;
   letter-spacing: 0.5px;
@@ -57,7 +59,7 @@
   color: #64748b;
 }
 
-/* Decorative Bottom Accent */
+/* Decorative accent */
 .card::after {
   content: "";
   position: absolute;
@@ -68,6 +70,7 @@
   background: linear-gradient(to right, #22c55e, transparent);
   opacity: 0.6;
 }
+
 
 /* ==============================
    CARD HIGHLIGHTS
@@ -86,4 +89,107 @@
 .card.highlight-red {
   border: 1px solid #dc2626;
   box-shadow: 0 0 12px rgba(220,38,38,0.4);
+}
+
+
+/* ==============================
+   MOBILE ITEM CARD (MAIN CARD)
+============================== */
+
+.item-card {
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background: linear-gradient(145deg, #1e293b, #0f172a);
+  padding: 18px;
+  border-radius: 14px;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  transition: all 0.25s ease;
+}
+
+.item-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+
+/* ==============================
+   STATUS SYSTEM
+============================== */
+
+/* ---------- DESKTOP TABLE ---------- */
+tr.status-disponible {
+  background: linear-gradient(145deg, #1e293b, #0f172a);
+}
+
+tr.status-reservado {
+  background: #3f2a00;
+}
+
+tr.status-vendido {
+  background: #052e16;
+}
+
+/* ---------- MOBILE CARDS ---------- */
+.item-card.status-reservado {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid #f59e0b;
+}
+
+.item-card.status-vendido {
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid #16a34a;
+}
+
+
+/* ==============================
+   STATUS BADGE (PILL)
+============================== */
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* Mobile-specific (scoped correctly) */
+.item-card.status-disponible .status-badge {
+  background: #1e293b;
+  color: #94a3b8;
+}
+
+.item-card.status-reservado .status-badge {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+.item-card.status-vendido .status-badge {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+}
+
+
+/* ==============================
+   SMALL UTILITIES
+============================== */
+
+.card-status {
+  margin: 6px 0;
+}
+
+
+/* ==============================
+   STYLE DISABLE BUTTONS
+============================== */
+
+.btn.link.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
 }

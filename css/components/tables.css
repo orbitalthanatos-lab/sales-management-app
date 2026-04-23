@@ -46,9 +46,19 @@ td {
   font-size: 14px;
 }
 
-/* HOVER EFFECT */
-tr:hover {
-  background-color: #273449;
+/* STATUS-BASED HOVER EFFECTS */
+tr.status-disponible:hover {
+  background: #243244; /* slightly lighter */
+  transform: scale(1.005);
+}
+
+tr.status-reservado:hover {
+  background: #4a3200; /* lighter orange */
+  transform: scale(1.005);
+}
+
+tr.status-vendido:hover {
+  background: #064e2a; /* lighter green */
   transform: scale(1.005);
 }
 

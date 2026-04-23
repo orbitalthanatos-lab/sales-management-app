@@ -2,7 +2,7 @@
 //  IMPORTS
 // ==============================
 
-import { getImage, extractPlatformLinks } from "./items.logic.js";
+import { getImage, extractPlatformLinks, getStatusClass, getStatusLabel } from "./items.logic.js";
 
 // ==============================
 //  GENERIC HELPERS
@@ -99,8 +99,7 @@ export function renderTableUI(items, PLATFORMS, helpers, filters) {
     const row = document.createElement("tr");
 
     // Row background
-    if (item.status === "Vendido") row.style.backgroundColor = "#052e16";
-    else if (item.status === "Reservado") row.style.backgroundColor = "#3f2a00";
+    row.classList.add(getStatusClass(item.status));
 
     // Calculate days since published
     let days = "-";
@@ -162,7 +161,13 @@ export function renderTableUI(items, PLATFORMS, helpers, filters) {
           style="cursor:pointer;width:50px;height:50px;object-fit:cover;border-radius:6px;">
       </td>
 
-      <td>${data.title || ""}</td>
+      <td>
+        ${data.title || ""}
+        <div class="status-badge">
+          ${getStatusLabel(item.status)}
+        </div>
+      </td>
+
       <td>
         ${(data.description || "").length > 40
         ? data.description.slice(0, 40) + "..."
@@ -280,7 +285,7 @@ export function renderMobileCards(items) {
     const profit = price - buy - fees;
 
     return `
-      <div class="item-card">
+      <div class="item-card ${getStatusClass(item.status)}">
 
         <!-- IMAGE -->
         <div class="card-image">
@@ -301,6 +306,12 @@ export function renderMobileCards(items) {
 
           <button class="arrow-btn" onclick="switchPlatform('${item.id}', 'next')">→</button>
 
+        </div>
+
+        <div class="card-status">
+          <span class="status-badge">
+            ${getStatusLabel(item.status)}
+          </span>
         </div>
 
         <!-- TITLE -->
@@ -364,12 +375,12 @@ export function renderMobileCards(items) {
             🗑 Eliminar
           </button>
 
-          ${item.links?.[selected]
-                ? `<button class="btn link" onclick="window.open('${item.links[selected]}', '_blank')">
-                🔗 Link
-              </button>`
-                : ""
-              }
+          <button 
+            class="btn link ${item.links?.[selected] ? "" : "disabled"}"
+            ${item.links?.[selected] ? `onclick="window.open('${item.links[selected]}', '_blank')"` : ""}
+          >
+            ${item.links?.[selected] ? "🔗 Link" : "🔒 No Link"}
+          </button>
 
         </div>
 

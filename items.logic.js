@@ -260,3 +260,37 @@ export function parseItemFile(text) {
     milanuncios: extractPlatformData(text, "MILANUNCIOS")
   };
 }
+
+// ==============================
+//  STATUS SYSTEM (SINGLE SOURCE)
+// ==============================
+
+export const STATUS_CONFIG = {
+  Disponible: {
+    class: "status-disponible",
+    color: "#64748b",
+    label: "Disponible"
+  },
+  Reservado: {
+    class: "status-reservado",
+    color: "#f59e0b",
+    label: "⏳ Reservado"
+  },
+  Vendido: {
+    class: "status-vendido",
+    color: "#16a34a",
+    label: "✔ Vendido"
+  }
+};
+
+export function getStatusClass(status) {
+  return STATUS_CONFIG[status]?.class || "status-disponible";
+}
+
+export function getStatusColor(status) {
+  return STATUS_CONFIG[status]?.color || "#64748b";
+}
+
+export function getStatusLabel(status) {
+  return STATUS_CONFIG[status]?.label || status;
+}
