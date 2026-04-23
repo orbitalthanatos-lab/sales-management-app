@@ -9,6 +9,7 @@ import { setupFilters } from "./items.events.js";
 import { createCard } from "./ui.components.js";
 import { parseItemFile } from "./items.logic.js";
 import { supabase } from "./supabase.js";
+import { importFromFolder } from "./items.import.js";
 
 // ==============================
 // MAIN
@@ -829,6 +830,35 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Error deleting item");
     }
   };
+
+  // ==============================
+  // BULK IMPORT (FOLDER)
+  // ==============================
+
+  const folderInput = document.getElementById("folderInput");
+  const importFolderBtn = document.getElementById("importFolderBtn");
+
+  if (importFolderBtn && folderInput) {
+
+    importFolderBtn.addEventListener("click", () => {
+      folderInput.click();
+    });
+
+    folderInput.addEventListener("change", async (e) => {
+      const files = Array.from(e.target.files);
+
+      if (!files.length) return;
+
+      await importFromFolder(files);
+
+      await loadItems(); // refresh UI
+    });
+
+  }
+
+  // ==============================
+  // MASTER PROMPT COPY
+  // ==============================
 
   document.getElementById("masterPromptBtn").addEventListener("click", async () => {
     try {

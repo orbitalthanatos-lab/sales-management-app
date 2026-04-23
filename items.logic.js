@@ -5,9 +5,14 @@
  * @returns {string}
  */
 export function extractTag(text, tag) {
-    const regex = new RegExp(`\\[${tag}\\]\\s*([\\s\\S]*?)(?=\\n\\[|$)`, "i");
-    const match = text.match(regex);
-    return match ? match[1].trim() : "";
+  const regex = new RegExp(
+    `\\[${tag}\\]\\s*\\n*([\\s\\S]*?)(?=\\n\\s*\\[|$)`,
+    "i"
+  );
+
+  const match = text.match(regex);
+
+  return match ? match[1].trim() : "";
 }
 
 /**
