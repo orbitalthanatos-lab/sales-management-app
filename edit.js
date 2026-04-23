@@ -46,6 +46,12 @@ async function loadItem() {
             images: item.images || []
         };
 
+        // 🔥 Set title with custom_id
+        const titleEl = document.getElementById("editTitle");
+        if (titleEl && currentItem.custom_id) {
+            titleEl.innerText = `✏️ Edit Item (${currentItem.custom_id})`;
+        }
+
         const allPlatforms = ["wallapop", "vinted", "milanuncios"];
 
         for (const p of allPlatforms) {

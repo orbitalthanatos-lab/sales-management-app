@@ -153,7 +153,7 @@ export function renderTableUI(items, PLATFORMS, helpers, filters) {
 
     row.innerHTML = `
       
-      <td class="item-id">${index + 1}</td>
+      <td class="item-id">${item.custom_id || "-"}</td>
 
       <td>
         <img src="${getImage(item)}"
@@ -287,6 +287,8 @@ export function renderMobileCards(items) {
     return `
       <div class="item-card ${getStatusClass(item.status)}">
 
+        <div class="card-id">${item.custom_id || "-"}</div>
+        
         <!-- IMAGE -->
         <div class="card-image">
           <img src="${getImage(item)}" class="card-img">
