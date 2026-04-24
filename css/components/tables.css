@@ -171,11 +171,60 @@ th:first-child {
   font-variant-numeric: tabular-nums;
 }
 
-/* Column widths */
-.col-buy { min-width: 90px; }
-.col-sale { min-width: 90px; }
-.col-fees { min-width: 100px; }
-.col-profit { min-width: 110px; }
+/* FINANCIAL COLUMNS (FIXED WIDTH) */
+.col-sale {
+  width: 80px;
+  min-width: 80px;
+  max-width: 80px;
+}
+
+.col-buy {
+  width: 80px;
+  min-width: 80px;
+  max-width: 80px;
+}
+
+.col-fees {
+  width: 80px;
+  min-width: 80px;
+  max-width: 80px;
+}
+
+.col-profit {
+  width: 80px;
+  min-width: 80px;
+  max-width: 80px;
+}
+
+.title-cell {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-align: left;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.description-cell {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-align: left;
+  color: #cbd5f5;
+  line-height: 1.4;
+}
+
+.title-cell:hover,
+.description-cell:hover {
+  overflow: visible;
+  -webkit-line-clamp: unset;
+  line-clamp: unset;
+  background: rgba(0,0,0,0.2);
+}
 
 /* ==============================
    TABLE ALIGNMENT & STATES
@@ -213,17 +262,36 @@ th:first-child {
 }
 
 /* ==============================
-   FIXED WIDTH FOR TITLE COLUMN
+    FIXED WIDTH FOR "TÍTULO" COLUMN
 ============================== */
 
 th:nth-child(3),
 td:nth-child(3) {
-  width: 250px;
-  min-width: 250px;
-  max-width: 250px;
+  width: 200px;
+  min-width: 200px;
+  max-width: 200px;
   white-space: normal; /* Prevents overflow issues */
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* ==============================
+   FIXED WIDTH FOR "DESCRIPCIÓN" COLUMN
+============================== */
+
+th:nth-child(4),
+td:nth-child(4) {
+  width: 275px;
+  min-width: 275px;
+  max-width: 275px;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+td:nth-child(4) {
+  white-space: normal;
+  line-height: 1.4;
 }
 
 /* ==============================
@@ -233,8 +301,9 @@ td:nth-child(3) {
 .actions-cell {
   display: flex;
   align-items: center;
-  justify-content: center; /* optional: center whole group */
-  gap: 6px;
+  justify-content: center;
+  gap: 5px;
+  height: 100%;
 }
 
 /* Button */

@@ -162,16 +162,15 @@ export function renderTableUI(items, PLATFORMS, helpers, filters) {
       </td>
 
       <td>
-        ${data.title || ""}
-        <div class="status-badge">
-          ${getStatusLabel(item.status)}
+        <div class="title-cell">
+          ${data.title || ""}
         </div>
       </td>
 
       <td>
-        ${(data.description || "").length > 40
-        ? data.description.slice(0, 40) + "..."
-        : data.description || ""}
+        <div class="description-cell">
+          ${data.description || ""}
+        </div>
       </td>
 
       <td class="nowrap col-sale">${price.toFixed(2)} €</td>
@@ -220,18 +219,20 @@ export function renderTableUI(items, PLATFORMS, helpers, filters) {
 
       <td class="date-cell">${formatDate(item.dateSold)}</td>
 
-      <td class="actions-cell">
-        <button class="action-btn edit" title="Edit" onclick="editItem('${item.id}')">
-          <i data-lucide="pencil"></i>
-        </button>
+      <td>
+        <div class="actions-cell">
+          <button class="action-btn edit" title="Edit" onclick="editItem('${item.id}')">
+            <i data-lucide="pencil"></i>
+          </button>
 
-        <button class="action-btn delete" title="Delete" onclick="deleteItem('${item.id}')">
-          <i data-lucide="trash-2"></i>
-        </button>
+          <button class="action-btn delete" title="Delete" onclick="deleteItem('${item.id}')">
+            <i data-lucide="trash-2"></i>
+          </button>
 
-        <button class="action-btn upload" title="Upload Images" onclick="uploadImagesForItem('${item.id}')">
-          <i data-lucide="image-plus"></i>
-        </button>
+          <button class="action-btn upload" title="Upload Images" onclick="uploadImagesForItem('${item.id}')">
+            <i data-lucide="image-plus"></i>
+          </button>
+        </div>
       </td>
     `;
 
