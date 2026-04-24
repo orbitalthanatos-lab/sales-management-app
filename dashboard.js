@@ -1,36 +1,64 @@
 import { calculateStats } from "./items.logic.js";
 import { createCard } from "./ui.components.js";
+import { supabase } from "./supabase.js";
 
 function setCardHighlight(id, type) {
-  const el = document.getElementById(id);
-  if (!el) return;
+    const el = document.getElementById(id);
+    if (!el) return;
 
-  el.classList.remove("highlight-green", "highlight-red", "highlight-blue");
+    el.classList.remove("highlight-green", "highlight-red", "highlight-blue");
 
-  if (type === "green") el.classList.add("highlight-green");
-  if (type === "red") el.classList.add("highlight-red");
-  if (type === "blue") el.classList.add("highlight-blue");
+    if (type === "green") el.classList.add("highlight-green");
+    if (type === "red") el.classList.add("highlight-red");
+    if (type === "blue") el.classList.add("highlight-blue");
 }
 
 let items = [];
 
 async function loadItems() {
     try {
-        const res = await fetch("data/items.json");
-        const uiState = JSON.parse(localStorage.getItem("uiState")) || {};
+        // 1️⃣ Get items
+        const { data: itemsData, error: itemsError } = await supabase
+            .from("items")
+            .select("*");
 
-        items = (await res.json()).map(item => {
-            const saved = uiState[item.id];
+        if (itemsError) throw itemsError;
+
+        // 2️⃣ Get platforms
+        const { data: platformsData, error: platformsError } = await supabase
+            .from("item_platforms")
+            .select("*");
+
+        if (platformsError) throw platformsError;
+
+        // 3️⃣ Build items structure (same as script.js)
+        items = itemsData.map(item => {
+            const platformData = {};
+            const links = {};
+
+            platformsData
+                .filter(p => p.item_id === item.id)
+                .forEach(p => {
+                    platformData[p.platform] = {
+                        title: p.title,
+                        description: p.description,
+                        price: p.price,
+                        fees: p.fees,
+                        buy: p.buy
+                    };
+
+                    links[p.platform] = p.url || "";
+                });
 
             return {
                 ...item,
-                status: saved && saved.status !== undefined
-                    ? saved.status
-                    : (item.status || "Disponible"),
-
-                soldPlatform: saved && saved.soldPlatform !== undefined
-                    ? saved.soldPlatform
-                    : (item.soldPlatform || "")
+                selectedPlatform: item.selected_platform || "wallapop",
+                soldPlatform: item.sold_platform || "",
+                datePublished: item.date_published || "",
+                dateSold: item.date_sold || "",
+                platformData,
+                links,
+                images: item.images || []
             };
         });
 
@@ -75,11 +103,23 @@ function renderDashboard() {
     const soldItems = items.filter(i => i.status === "Vendido");
 
     // Beneficio total
-    const totalProfit = soldItems.reduce((sum, i) => sum + (i.profit || 0), 0);
+    const getProfit = (item) => {
+        const platform =
+            item.status === "Vendido"
+                ? item.soldPlatform || item.selectedPlatform || "wallapop"
+                : item.selectedPlatform || "wallapop";
+
+        const data = item.platformData?.[platform];
+        if (!data) return 0;
+
+        return (data.price || 0) - (data.buy || 0) - (data.fees || 0);
+    };
+
+    const totalProfit = soldItems.reduce((sum, i) => sum + getProfit(i), 0);
 
     // Mejor venta
     const bestSale = soldItems.reduce((max, i) => {
-        return (i.profit || 0) > (max?.profit || 0) ? i : max;
+        return getProfit(i) > getProfit(max || {}) ? i : max;
     }, null);
 
     // Conteo por plataforma
@@ -112,42 +152,46 @@ function renderDashboard() {
 
     // Top 3 sales
     const topSales = [...soldItems]
-    .sort((a, b) => (b.profit || 0) - (a.profit || 0))
-    .slice(0, 3);
+        .sort((a, b) => getProfit(b) - getProfit(a))
+        .slice(0, 3);
 
     // Items to drop price (>15 days unsold)
     const priceDrop = items.filter(i => {
-    if (!i.datePublished || i.status === "Vendido") return false;
-    const days = Math.floor((new Date() - new Date(i.datePublished)) / (1000*60*60*24));
-    return days > 15;
+        if (!i.datePublished || i.status === "Vendido") return false;
+        const days = Math.floor((new Date() - new Date(i.datePublished)) / (1000 * 60 * 60 * 24));
+        return days > 15;
     }).length;
 
     // Oldest item
     const oldestItem = items.reduce((oldest, i) => {
-    if (!i.datePublished) return oldest;
-    return (!oldest || new Date(i.datePublished) < new Date(oldest.datePublished)) ? i : oldest;
+        if (!i.datePublished) return oldest;
+        return (!oldest || new Date(i.datePublished) < new Date(oldest.datePublished)) ? i : oldest;
     }, null);
 
     // ROI
-    const totalInvested = items.reduce((sum, i) => sum + (i.buy || 0), 0);
+    const totalInvested = items.reduce((sum, item) => {
+        const platform = item.selectedPlatform || "wallapop";
+        const data = item.platformData?.[platform];
+        return sum + (data?.buy || 0);
+    }, 0);
     const roi = totalInvested > 0 ? (totalProfit / totalInvested) * 100 : 0;
 
     // Avg sale
     const avgSale = soldItems.length > 0
-    ? totalProfit / soldItems.length
-    : 0;
+        ? totalProfit / soldItems.length
+        : 0;
 
     // Inventory value
     const inventoryValue = items.reduce((sum, i) => {
-    return i.status !== "Vendido" ? sum + (i.profit || 0) : sum;
+        return i.status !== "Vendido" ? sum + getProfit(i) : sum;
     }, 0);
 
     // Sales this month
     const now = new Date();
     const salesMonth = soldItems.filter(i => {
-    if (!i.dateSold) return false;
-    const d = new Date(i.dateSold);
-    return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+        if (!i.dateSold) return false;
+        const d = new Date(i.dateSold);
+        return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
     }).length;
 
     // ============================
@@ -156,27 +200,27 @@ function renderDashboard() {
 
     // Best performer → highest profit
     if (totalProfit > 0) {
-    setCardHighlight("d_totalProfit", "green");
+        setCardHighlight("d_totalProfit", "green");
     }
 
     // Best platform highlight
     if (bestPlatform !== "-") {
-    setCardHighlight("d_bestPlatform", "blue");
+        setCardHighlight("d_bestPlatform", "blue");
     }
 
     // Best sale highlight
     if (bestSale) {
-    setCardHighlight("d_bestSale", "green");
+        setCardHighlight("d_bestSale", "green");
     }
 
     // Slow items warning
     if (slowItems > 0) {
-    setCardHighlight("d_slowItems", "red");
+        setCardHighlight("d_slowItems", "red");
     }
 
     // Price drop warning
     if (priceDrop > 0) {
-    setCardHighlight("d_priceDrop", "red");
+        setCardHighlight("d_priceDrop", "red");
     }
 
     // ROI
@@ -185,17 +229,17 @@ function renderDashboard() {
 
     // Inventory value
     if (inventoryValue > 0) {
-    setCardHighlight("d_inventoryValue", "blue");
+        setCardHighlight("d_inventoryValue", "blue");
     }
 
     // Sales this month
     if (salesMonth > 0) {
-    setCardHighlight("d_salesMonth", "green");
+        setCardHighlight("d_salesMonth", "green");
     }
 
     // Avg sale
     if (avgSale > 0) {
-    setCardHighlight("d_avgSale", "blue");
+        setCardHighlight("d_avgSale", "blue");
     }
 
     // ============================
@@ -212,7 +256,7 @@ function renderDashboard() {
     document.getElementById("d_avgTime_val").innerText = avgTime;
     document.getElementById("d_topSales_val").innerText =
         topSales.map((i, idx) =>
-        `${idx + 1}. ${i.platformData?.wallapop?.title?.slice(0, 20)}`
+            `${idx + 1}. ${i.platformData?.wallapop?.title?.slice(0, 20)}`
         ).join(" | ") || "-";
     document.getElementById("d_priceDrop_val").innerText =
         priceDrop > 0 ? `${priceDrop} items need price drop` : "All good";

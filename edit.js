@@ -47,12 +47,19 @@ async function loadItem() {
         };
 
         const titleEl = document.getElementById("editTitle");
-        const badgeEl = document.getElementById("itemIdBadge");
+        const idBadge = document.getElementById("itemIdBadge");
+        const statusBadge = document.getElementById("itemStatusBadge");
 
-        if (currentItem.custom_id) {
-            if (titleEl) titleEl.innerText = `Edit Item`;
-            if (badgeEl) badgeEl.innerText = currentItem.custom_id;
+        if (titleEl) {
+            titleEl.innerText = "✏️ Edit Item";
         }
+
+        if (idBadge && currentItem.custom_id) {
+            idBadge.innerText = currentItem.custom_id;
+        }
+
+        // 🔥 STATUS BADGE
+        updateStatusBadge(currentItem.status);
 
         const allPlatforms = ["wallapop", "vinted", "milanuncios"];
 
@@ -343,6 +350,29 @@ window.uploadImages = () => {
     input.click();
 };
 
+function updateStatusBadge(status) {
+    const statusBadge = document.getElementById("itemStatusBadge");
+    if (!statusBadge) return;
+
+    statusBadge.innerText = status;
+
+    statusBadge.classList.remove(
+        "status-disponible",
+        "status-reservado",
+        "status-vendido"
+    );
+
+    const s = status.toLowerCase();
+
+    if (s === "disponible") {
+        statusBadge.classList.add("status-disponible");
+    } else if (s === "reservado") {
+        statusBadge.classList.add("status-reservado");
+    } else if (s === "vendido") {
+        statusBadge.classList.add("status-vendido");
+    }
+}
+
 // ==============================
 // INPUT BINDINGS
 // ==============================
@@ -370,6 +400,7 @@ function bindInputs() {
 
     document.getElementById("status").addEventListener("change", e => {
         currentItem.status = e.target.value;
+        updateStatusBadge(currentItem.status);
         applySmartLogic();
     });
 

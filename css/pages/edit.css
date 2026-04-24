@@ -413,3 +413,63 @@ textarea:disabled {
   background: #1e293b;
   margin: 12px 0 18px;
 }
+
+
+/* ==============================
+   IMAGE MANAGER GRID
+============================== */
+
+.edit-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ID badge (existing style feel) */
+.badge-id {
+  background: #1e293b;
+  color: #38bdf8;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* STATUS badge base */
+.badge-status {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+/* Colors */
+.status-disponible {
+  background: rgba(34,197,94,0.15);
+  color: #22c55e;
+}
+
+.status-reservado {
+  background: rgba(234,179,8,0.15);
+  color: #eab308;
+}
+
+.status-vendido {
+  background: rgba(239,68,68,0.15);
+  color: #ef4444;
+}
+
+/* ==============================
+   FORCE WHITE TEXT (OVERRIDE ROW STATUS)
+============================== */
+
+td:nth-child(3), /* Título */
+td:nth-child(4), /* Descripción */
+td:nth-child(5), /* Venta */
+td:nth-child(6), /* Compra */
+td:nth-child(12), /* Fecha Publicada */
+td:nth-child(14)  /* Fecha Venta */
+{
+  color: #ffffff !important;
+}
