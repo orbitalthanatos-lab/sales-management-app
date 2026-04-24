@@ -832,6 +832,37 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // ==============================
+  // IMPORT BUTTON LOCK
+  // ==============================
+
+  const importBtn = document.getElementById("importFolderBtn");
+  const textImportBtn = document.getElementById("importBtn"); // text import button
+
+  document.addEventListener("import:start", () => {
+    if (importBtn) {
+      importBtn.disabled = true;
+      importBtn.innerText = "⏳ Importing...";
+    }
+
+    if (textImportBtn) {
+      textImportBtn.disabled = true;
+      textImportBtn.innerText = "⏳ Importing...";
+    }
+  });
+
+  document.addEventListener("import:end", () => {
+    if (importBtn) {
+      importBtn.disabled = false;
+      importBtn.innerText = "Import Folder";
+    }
+
+    if (textImportBtn) {
+      textImportBtn.disabled = false;
+      textImportBtn.innerText = "Import";
+    }
+  });
+
+  // ==============================
   // BULK IMPORT (FOLDER)
   // ==============================
 

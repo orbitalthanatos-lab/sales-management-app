@@ -11,9 +11,22 @@ import { parseItemFile } from "./items.logic.js";
 
 export async function importFromFolder(files) {
     try {
+        document.dispatchEvent(new CustomEvent("import:start"));
+
         const grouped = groupFilesByFolder(files);
 
-        for (const folderName of Object.keys(grouped)) {
+        const statusEl = document.getElementById("importStatus");
+        const folderNames = Object.keys(grouped);
+        const total = folderNames.length;
+        let current = 0;
+
+        for (const folderName of folderNames) {
+            current++;
+
+            if (statusEl) {
+                statusEl.innerText = `Importing items... (${current} / ${total})`;
+            }
+
             const fileGroup = grouped[folderName];
 
             // 🔥 1. FIND TXT FILE
@@ -29,17 +42,15 @@ export async function importFromFolder(files) {
             // 🔥 2. PARSE TXT
             const platforms = parseDataText(text);
 
-            // 🔥 3. UPSERT ITEM (avoid duplicates)
+            // ✅ CREATE NEW ITEM
             const { data: itemData, error: itemError } = await supabase
                 .from("items")
-                .upsert(
+                .insert([
                     {
-                        custom_id: folderName,
                         status: "Disponible",
                         date_published: new Date().toISOString().split("T")[0]
-                    },
-                    { onConflict: "custom_id" }
-                )
+                    }
+                ])
                 .select()
                 .single();
 
@@ -48,29 +59,29 @@ export async function importFromFolder(files) {
             const itemId = itemData.id;
 
             // 🔥 4. INSERT PLATFORMS
-for (const p of platforms) {
+            for (const p of platforms) {
 
-  // 🔍 DEBUG → see what we are sending
-  console.log("PLATFORM DATA:", p);
+                // 🔍 DEBUG → see what we are sending
+                console.log("PLATFORM DATA:", p);
 
-  try {
-    await supabase.from("item_platforms").upsert(
-      {
-        item_id: itemId,
-        platform: p.platform,
-        title: p.title,
-        description: p.description,
-        price: parseFloat(p.price) || 0,
-        fees: parseFloat(p.fees) || 0,
-        buy: 0,
-        url: p.url || ""
-      },
-      { onConflict: "id" }
-    );
-  } catch (err) {
-    console.error("PLATFORM INSERT ERROR:", err);
-  }
-}
+                try {
+                    await supabase.from("item_platforms").upsert(
+                        {
+                            item_id: itemId,
+                            platform: p.platform,
+                            title: p.title,
+                            description: p.description,
+                            price: parseFloat(p.price) || 0,
+                            fees: parseFloat(p.fees) || 0,
+                            buy: 0,
+                            url: p.url || ""
+                        },
+                        { onConflict: "id" }
+                    );
+                } catch (err) {
+                    console.error("PLATFORM INSERT ERROR:", err);
+                }
+            }
 
             // 🔥 5. UPLOAD IMAGES
             const imageFiles = fileGroup.filter(f =>
@@ -119,11 +130,17 @@ for (const p of platforms) {
             console.log(`✅ Imported ${folderName}`);
         }
 
-        alert("Bulk import completed 🚀");
+        if (statusEl) {
+            statusEl.innerText = "Import completed ✅";
+        }
+
+        // alert("Bulk import completed 🚀");
+        document.dispatchEvent(new CustomEvent("import:end"));
 
     } catch (err) {
         console.error(err);
         alert("Error during bulk import");
+        document.dispatchEvent(new CustomEvent("import:end"));
     }
 }
 
@@ -132,20 +149,20 @@ for (const p of platforms) {
 // ==============================
 
 function parseDataText(text) {
-  const sections = text.split("=== ").slice(1);
+    const sections = text.split("=== ").slice(1);
 
-  return sections.map(section => {
-    const platform = section.split(" ===")[0].trim().toLowerCase();
+    return sections.map(section => {
+        const platform = section.split(" ===")[0].trim().toLowerCase();
 
-    return {
-      platform,
-      url: extractValue(section, "LINK"),
-      title: extractValue(section, "TÍTULO"),
-      description: extractValue(section, "DESCRIPCIÓN"),
-      price: extractValue(section, "PRECIO"),
-      fees: extractValue(section, "COMISION")
-    };
-  });
+        return {
+            platform,
+            url: extractValue(section, "LINK"),
+            title: extractValue(section, "TÍTULO"),
+            description: extractValue(section, "DESCRIPCIÓN"),
+            price: extractValue(section, "PRECIO"),
+            fees: extractValue(section, "COMISION")
+        };
+    });
 }
 
 // ==============================
@@ -153,10 +170,10 @@ function parseDataText(text) {
 // ==============================
 
 function extractValue(text, key) {
-  const regex = new RegExp(`\\[${key}[^\\]]*\\][\\s\\S]*?\\n([^\\[]+)`);
-  const match = text.match(regex);
+    const regex = new RegExp(`\\[${key}[^\\]]*\\][\\s\\S]*?\\n([^\\[]+)`);
+    const match = text.match(regex);
 
-  return match ? match[1].trim().replace("€", "") : "";
+    return match ? match[1].trim().replace("€", "") : "";
 }
 
 // ==============================
@@ -169,7 +186,11 @@ function groupFilesByFolder(files) {
     for (const file of files) {
         const path = file.webkitRelativePath;
         const parts = path.split("/");
-        const folder = parts.length > 1 ? parts[1] : parts[0];
+
+        // ✅ ALWAYS take the folder name (second-to-last element)
+        const folder = parts.length > 1
+            ? parts[parts.length - 2]
+            : parts[0];
 
         if (!groups[folder]) groups[folder] = [];
         groups[folder].push(file);

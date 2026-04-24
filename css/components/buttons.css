@@ -15,3 +15,9 @@ button, #masterPromptBtn {
 button:hover, #masterPromptBtn:hover {
   background-color: #2563eb;
 }
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

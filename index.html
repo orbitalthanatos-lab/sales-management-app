@@ -82,13 +82,16 @@
 
       <textarea id="importText" rows="10" placeholder="Paste your data here..."></textarea>
 
-      <button onclick="importFromText()">Import</button>
+      <button id="importBtn" onclick="importFromText()">Import</button>
 
       <button id="importFolderBtn">Import Folder</button>
 
       <input type="file" id="folderInput" webkitdirectory multiple hidden />
 
       <button id="masterPromptBtn" class="btn-secondary">Copy Prompt</button>
+
+      <div id="importStatus" style="margin-top:10px; font-size:14px; color:#94a3b8;"></div>
+       
     </div>
 
     <!-- 🔍 CONTROLS -->
