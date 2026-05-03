@@ -4,6 +4,7 @@
 
 import { supabase } from "./supabase.js";
 import { parseItemFile } from "./items.logic.js";
+import { currentUser } from "./script.js";
 
 // ==============================
 // MAIN IMPORT FUNCTION
@@ -48,7 +49,8 @@ export async function importFromFolder(files) {
                 .insert([
                     {
                         status: "Disponible",
-                        date_published: new Date().toISOString().split("T")[0]
+                        date_published: new Date().toISOString().split("T")[0],
+                        user_id: currentUser.id
                     }
                 ])
                 .select()

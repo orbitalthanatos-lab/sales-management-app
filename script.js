@@ -10,8 +10,21 @@ import { createCard } from "./ui.components.js";
 import { parseItemFile } from "./items.logic.js";
 import { supabase } from "./supabase.js";
 import { importFromFolder } from "./items.import.js";
-
 import { initAuthEvents, initLogoutEvent } from "./items.events.js";
+
+export let currentUser = null;
+
+export async function initUser() {
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    window.location.href = "login.html";
+    return null;
+  }
+
+  currentUser = user;
+  return user;
+}
 
 // ==============================
 // MAIN
@@ -26,12 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // CHECK AUTH AND SHOW/HIDE LOGOUT
   // ==============================
 
-  const { data } = await supabase.auth.getUser();
-  const user = data.user;
-
-  if (!user) {
-    window.location.href = "login.html";
-  }
+  const user = await initUser();
 
   // ==============================
   // LOAD ITEMS
@@ -205,7 +213,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const { data: itemsData, error: itemsError } = await supabase
         .from("items")
         .select("*")
-        .eq("user_id", user.id)
+        .eq("user_id", currentUser.id)
         .order("created_at", { ascending: true });
 
       if (itemsError) throw itemsError;
@@ -285,7 +293,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         {
           status: "Disponible",
           date_published: today,
-          user_id: user.id   // 🔥 THIS FIXES YOUR ERROR
+          user_id: currentUser.id
         }
       ])
         .select()
