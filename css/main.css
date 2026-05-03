@@ -20,6 +20,7 @@
 @import url("./components/tabs.css");
 @import url("./components/platform-icons.css");
 @import url("./components/image-viewer.css");
+@import url("./components/dropdown.css");
 
 /* Pages */
 @import url("./pages/dashboard.css");

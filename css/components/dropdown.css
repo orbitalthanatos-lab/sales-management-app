@@ -1,0 +1,36 @@
+.dropdown-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    color: white;
+}
+
+.dropdown-item:hover {
+    background: #334155;
+}
+
+#userDropdown {
+    border: 1px solid #334155;
+    animation: fadeIn 0.15s ease;
+    display: none;
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: #1e293b;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    min-width: 150px;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

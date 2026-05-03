@@ -41,6 +41,71 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const user = await initUser();
 
+  renderUserInfo();
+  initUserMenu();
+
+  // ==============================
+  // ACCOUNT PAGE (COMING SOON)
+  // ==============================
+  
+  document.getElementById("accountBtn")?.addEventListener("click", () => {
+    alert("Account page coming soon");
+  });
+
+  // ==============================
+  // RENDER USER INFO
+  // ==============================
+
+  function renderUserInfo() {
+    if (!currentUser) return;
+
+    const nameEl = document.getElementById("userName");
+    const avatarEl = document.getElementById("userAvatar");
+
+    const name =
+      currentUser.user_metadata?.full_name ||
+      currentUser.user_metadata?.name ||
+      "";
+
+    if (nameEl) {
+      nameEl.innerText = name;
+    }
+
+    if (avatarEl) {
+      avatarEl.src =
+        currentUser.user_metadata?.avatar_url ||
+        "https://via.placeholder.com/32";
+    }
+  }
+
+  // ==============================
+  // USER MENU
+  // ==============================
+
+  function initUserMenu() {
+    const menu = document.getElementById("userMenu");
+    const dropdown = document.getElementById("userDropdown");
+
+    if (!menu || !dropdown) return;
+
+    // Toggle dropdown
+    menu.addEventListener("click", (e) => {
+      e.stopPropagation();
+      dropdown.style.display =
+        dropdown.style.display === "block" ? "none" : "block";
+    });
+
+    // Close when clicking outside
+    document.addEventListener("click", () => {
+      dropdown.style.display = "none";
+    });
+
+    // Prevent closing when clicking inside dropdown
+    dropdown.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+  }
+
   // ==============================
   // LOAD ITEMS
   // ============================== 

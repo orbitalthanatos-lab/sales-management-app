@@ -30,9 +30,16 @@ export function initAuthEvents() {
 
   btn.addEventListener("click", async () => {
     await supabase.auth.signInWithOAuth({
-      provider: "google"
+      provider: "google",
+      options: {
+        redirectTo: window.location.origin,
+        queryParams: {
+          prompt: "select_account"
+        }
+      }
     });
   });
+  
 }
 
 // ==============================
