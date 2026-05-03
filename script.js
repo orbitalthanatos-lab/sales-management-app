@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ==============================
   // ACCOUNT PAGE (COMING SOON)
   // ==============================
-  
+
   document.getElementById("accountBtn")?.addEventListener("click", () => {
     alert("Account page coming soon");
   });
@@ -92,12 +92,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     menu.addEventListener("click", (e) => {
       e.stopPropagation();
       dropdown.style.display =
-        dropdown.style.display === "block" ? "none" : "block";
+        dropdown.classList.toggle("open");
     });
 
     // Close when clicking outside
     document.addEventListener("click", () => {
-      dropdown.style.display = "none";
+      dropdown.classList.remove("open");
     });
 
     // Prevent closing when clicking inside dropdown
