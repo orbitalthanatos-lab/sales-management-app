@@ -18,6 +18,22 @@ export async function importFromFolder(files) {
 
         const statusEl = document.getElementById("importStatus");
         const folderNames = Object.keys(grouped);
+
+        // 🔢 Get base item_number ONCE (before loop)
+        const { data: lastItems, error: lastError } = await supabase
+        .from("items")
+        .select("item_number")
+        .eq("user_id", currentUser.id)
+        .order("item_number", { ascending: false })
+        .limit(1);
+
+        if (lastError) throw lastError;
+
+        let baseNumber =
+        lastItems && lastItems.length > 0
+            ? lastItems[0].item_number
+            : 0;
+
         const total = folderNames.length;
         let current = 0;
 
@@ -43,18 +59,25 @@ export async function importFromFolder(files) {
             // 🔥 2. PARSE TXT
             const platforms = parseDataText(text);
 
-            // ✅ CREATE NEW ITEM
+            // 1️⃣ Prepare date
+            const today = new Date().toISOString().split("T")[0];
+
+            // 2️⃣ Calculate next item_number
+            const nextItemNumber = ++baseNumber;
+
+            // 3️⃣ Insert item and get ID
             const { data: itemData, error: itemError } = await supabase
-                .from("items")
-                .insert([
-                    {
-                        status: "Disponible",
-                        date_published: new Date().toISOString().split("T")[0],
-                        user_id: currentUser.id
-                    }
-                ])
-                .select()
-                .single();
+            .from("items")
+            .insert([
+                {
+                status: "Disponible",
+                date_published: today,
+                user_id: currentUser.id,
+                item_number: nextItemNumber
+                }
+            ])
+            .select()
+            .single();
 
             if (itemError) throw itemError;
 

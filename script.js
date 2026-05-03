@@ -32,9 +32,9 @@ export async function initUser() {
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-  initAuthEvents(); 
+  initAuthEvents();
   initLogoutEvent();
-  
+
   // ==============================
   // CHECK AUTH AND SHOW/HIDE LOGOUT
   // ==============================
@@ -349,18 +349,36 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       const buy = extractValue(text, "COMPRA");
 
-      // 1️⃣ Insert item
+      // 1️⃣ Prepare date
       const today = new Date().toISOString().split("T")[0];
 
-    const { data: itemData, error: itemError } = await supabase
-      .from("items")
-      .insert([
-        {
-          status: "Disponible",
-          date_published: today,
-          user_id: currentUser.id
-        }
-      ])
+      // 2️⃣ Get last item_number for this user
+      const { data: lastItems, error: lastError } = await supabase
+        .from("items")
+        .select("item_number")
+        .eq("user_id", currentUser.id)
+        .order("item_number", { ascending: false })
+        .limit(1);
+
+      if (lastError) throw lastError;
+
+      // 3️⃣ Calculate next item_number
+      const nextItemNumber =
+        lastItems && lastItems.length > 0
+          ? lastItems[0].item_number + 1
+          : 1;
+
+      // 4️⃣ Insert item with item_number
+      const { data: itemData, error: itemError } = await supabase
+        .from("items")
+        .insert([
+          {
+            status: "Disponible",
+            date_published: today,
+            user_id: currentUser.id,
+            item_number: nextItemNumber   // 🔥 NEW FIELD
+          }
+        ])
         .select()
         .single();
 
