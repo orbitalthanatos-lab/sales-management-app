@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <link rel="stylesheet" href="../css/main.css">
+
+  <style>
+    body {
+      background: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: sans-serif;
+    }
+
+    .login-card {
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      color: white;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .login-card h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .login-card input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 6px;
+      border: none;
+      background: #0f172a;
+      color: white;
+    }
+
+    .login-card button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn-login {
+      background: #ef4444;
+      color: white;
+    }
+
+    .btn-google {
+      background: #111827;
+      color: white;
+    }
+
+    .divider {
+      text-align: center;
+      margin: 15px 0;
+      color: #94a3b8;
+    }
+  </style>
+
+  <script type="module" src="./login.js"></script>
+</head>
+
+<body>
+
+  <div class="login-card">
+    <h2>Log In</h2>
+
+    <input id="email" type="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
+
+    <button id="loginBtn" class="btn-login">Log In</button>
+
+    <div class="divider">OR</div>
+
+    <button id="googleBtn" class="btn-google">
+      Log in with Google
+    </button>
+
+    <p style="margin-top:15px; font-size:14px;">
+      No account? <span id="signupBtn" style="cursor:pointer; color:#3b82f6;">Sign up</span>
+    </p>
+  </div>
+
+</body>
+</html>

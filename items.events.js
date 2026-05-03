@@ -16,3 +16,36 @@ export function setupFilters(setSearchQuery, setStatusFilter) {
   });
 
 }
+
+// ==============================
+//  AUTHENTICATION GOOGLE
+// ==============================
+
+import { supabase } from "./supabase.js";
+
+export function initAuthEvents() {
+  const btn = document.getElementById("googleLoginBtn");
+
+  if (!btn) return;
+
+  btn.addEventListener("click", async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "google"
+    });
+  });
+}
+
+// ==============================
+//  LOGOUT
+// ==============================
+
+export function initLogoutEvent() {
+  const btn = document.getElementById("logoutBtn");
+
+  if (!btn) return;
+
+  btn.addEventListener("click", async () => {
+    await supabase.auth.signOut();
+    window.location.href = "login.html";
+  });
+}

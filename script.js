@@ -11,11 +11,27 @@ import { parseItemFile } from "./items.logic.js";
 import { supabase } from "./supabase.js";
 import { importFromFolder } from "./items.import.js";
 
+import { initAuthEvents, initLogoutEvent } from "./items.events.js";
+
 // ==============================
 // MAIN
 // ==============================
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+
+  initAuthEvents(); 
+  initLogoutEvent();
+  
+  // ==============================
+  // CHECK AUTH AND SHOW/HIDE LOGOUT
+  // ==============================
+
+  const { data } = await supabase.auth.getUser();
+  const user = data.user;
+
+  if (!user) {
+    window.location.href = "login.html";
+  }
 
   // ==============================
   // LOAD ITEMS
@@ -189,6 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const { data: itemsData, error: itemsError } = await supabase
         .from("items")
         .select("*")
+        .eq("user_id", user.id)
         .order("created_at", { ascending: true });
 
       if (itemsError) throw itemsError;
@@ -262,14 +279,15 @@ document.addEventListener("DOMContentLoaded", () => {
       // 1️⃣ Insert item
       const today = new Date().toISOString().split("T")[0];
 
-      const { data: itemData, error: itemError } = await supabase
-        .from("items")
-        .insert([
-          {
-            status: "Disponible",
-            date_published: today
-          }
-        ])
+    const { data: itemData, error: itemError } = await supabase
+      .from("items")
+      .insert([
+        {
+          status: "Disponible",
+          date_published: today,
+          user_id: user.id   // 🔥 THIS FIXES YOUR ERROR
+        }
+      ])
         .select()
         .single();
 
