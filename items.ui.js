@@ -68,8 +68,31 @@ export function renderTableUI(items, PLATFORMS, helpers, filters) {
     if (statusFilter && item.status !== statusFilter) return false;
 
     if (searchQuery) {
-      const title = item.platformData?.wallapop?.title || "";
-      if (!title.toLowerCase().includes(searchQuery)) return false;
+      const query = searchQuery.toLowerCase().trim();
+
+      const title = item.platformData?.wallapop?.title?.toLowerCase() || "";
+
+      // 🔢 Normalize item_number
+      const itemNumber = item.item_number
+        ? String(item.item_number)
+        : "";
+
+      const paddedItemNumber = item.item_number
+        ? String(item.item_number).padStart(3, "0")
+        : "";
+
+      const itemCode = item.item_number
+        ? `item-${paddedItemNumber}`
+        : "";
+
+      const matchesTitle = title.includes(query);
+      const matchesNumber =
+        itemNumber === query ||
+        paddedItemNumber === query ||
+        itemCode === query ||
+        itemNumber.includes(query);
+
+      if (!matchesTitle && !matchesNumber) return false;
     }
 
     return true;
