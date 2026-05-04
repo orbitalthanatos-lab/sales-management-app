@@ -178,9 +178,9 @@ export function renderTableUI(items, PLATFORMS, helpers, filters) {
       
       <td class="item-id">
         ${item.item_number
-          ? `ITEM-${String(item.item_number).padStart(3, "0")}`
-          : "-"
-        }
+        ? `ITEM-${String(item.item_number).padStart(3, "0")}`
+        : "-"
+      }
       </td>
 
       <td>
@@ -318,9 +318,9 @@ export function renderMobileCards(items) {
 
         <div class="card-id">
           ${item.item_number
-            ? `ITEM-${String(item.item_number).padStart(3, "0")}`
-            : "-"
-          }
+        ? `ITEM-${String(item.item_number).padStart(3, "0")}`
+        : "-"
+      }
         </div>
         
         <!-- IMAGE -->
@@ -467,4 +467,68 @@ export function renderSalesGallery(items, helpers) {
       </div>
     `;
   }).join("");
+}
+
+// ==============================
+//  ITEMS CARDS CHANGEVIEW
+// ==============================
+
+export function renderItemsCards(items) {
+  const container = document.getElementById("itemsContainer");
+
+  container.innerHTML = `
+    <div class="cards-grid">
+      ${items.map(item => {
+
+    const selected =
+      item.status === "Vendido"
+        ? item.soldPlatform || item.selectedPlatform || "wallapop"
+        : item.selectedPlatform || "wallapop";
+
+    const data = item.platformData?.[selected] || {};
+
+    const price = data.price ?? 0;
+    const buy = data.buy ?? 0;
+    const fees = data.fees ?? 0;
+    const profit = price - buy - fees;
+
+    return `
+      <div class="card" data-id="${item.id}">
+        <div class="card-inner">
+
+          <!-- FRONT -->
+          <div class="card-front" style="background-image: url('${getImage(item)}')">
+            <div class="card-overlay">
+              <h3>${data.title || "Sin título"}</h3>
+              <p class="card-price">${price.toFixed(2)} €</p>
+            </div>
+
+            <button class="flip-btn">↻</button>
+          </div>
+
+          <!-- BACK -->
+          <div class="card-back">
+            <h3>${data.title || "Sin título"}</h3>
+
+            <p><strong>Compra:</strong> ${buy.toFixed(2)} €</p>
+            <p><strong>Venta:</strong> ${price.toFixed(2)} €</p>
+            <p><strong>Comisión:</strong> ${fees.toFixed(2)} €</p>
+
+            <p><strong>Beneficio:</strong> 
+              <span style="color:${profit >= 0 ? "#16a34a" : "#dc2626"}">
+                ${profit.toFixed(2)} €
+              </span>
+            </p>
+
+            <p><strong>Estado:</strong> ${item.status}</p>
+
+            <button class="flip-btn">↻</button>
+          </div>
+
+        </div>
+      </div>
+    `;
+  }).join("")}
+    </div>
+  `;
 }

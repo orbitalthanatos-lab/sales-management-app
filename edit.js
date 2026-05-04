@@ -51,7 +51,7 @@ async function loadItem() {
         const statusBadge = document.getElementById("itemStatusBadge");
 
         if (titleEl) {
-            titleEl.innerText = "✏️ Edit Item";
+            titleEl.innerText = "✏️ Edit";
         }
 
         if (idBadge && currentItem.custom_id) {

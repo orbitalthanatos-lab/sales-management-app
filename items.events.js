@@ -56,3 +56,16 @@ export function initLogoutEvent() {
     window.location.href = "login.html";
   });
 }
+
+// ==============================
+//  CARD FLIP
+// ==============================
+
+export function initCardEvents() {
+  document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("flip-btn")) {
+      const card = e.target.closest(".card");
+      card.classList.toggle("flipped");
+    }
+  });
+}

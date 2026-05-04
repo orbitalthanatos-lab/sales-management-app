@@ -40,7 +40,7 @@
 }
 
 /* Text */
-.card p {
+.card p:not(.card-price) {
   font-size: 11px;
   letter-spacing: 0.5px;
   color: #94a3b8;
@@ -208,4 +208,96 @@ tr.status-vendido {
   font-size: 12px;
   color: #94a3b8;
   margin-bottom: 4px;
+}
+
+/* ==============================
+   CARD VIEW (NEW)
+   ============================== */
+
+.view-toggle {
+  margin-bottom: 10px;
+}
+
+.view-toggle button {
+  padding: 8px 12px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* CARD */
+.card {
+  perspective: 1000px;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+/* FRONT & BACK */
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  backface-visibility: hidden;
+  overflow: hidden;
+}
+
+/* FRONT */
+.card-front {
+  background-size: cover;
+  background-position: center;
+}
+
+/* Overlay for title text on front */
+.card-overlay {
+  font-size: 14px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.8));
+  color: rgb(255, 255, 255);
+}
+/* Price styling */
+.card-price {
+  font-size: 12px;
+  font-weight: 800;
+  color: #22c55e;
+}
+
+/* BACK */
+.card-back {
+  background: #111827;
+  color: white;
+  padding: 15px;
+  transform: rotateY(180deg);
+}
+
+/* BUTTON */
+.flip-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.6);
+  border: none;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 50%;
+  cursor: pointer;
 }

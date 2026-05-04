@@ -85,7 +85,7 @@
 
           <!-- Dropdown -->
           <div id="userDropdown">
-            
+
             <div class="dropdown-item" id="accountBtn">My Account</div>
             <div class="dropdown-divider"></div>
             <div class="dropdown-item" id="logoutBtn">Logout</div>
@@ -93,8 +93,8 @@
           </div>
 
         </div>
-      </div>      
-      
+      </div>
+
     </div>
 
     <div class="stats" id="statsContainer"></div><br>
@@ -114,7 +114,12 @@
       <button id="masterPromptBtn" class="btn-secondary">Copy Prompt</button>
 
       <div id="importStatus" style="margin-top:10px; font-size:14px; color:#94a3b8;"></div>
-       
+
+      <div class="view-toggle">
+        <button id="tableViewBtn" class="active">Table</button>
+        <button id="cardViewBtn">Cards</button>
+      </div>
+
     </div>
 
     <!-- 🔍 CONTROLS -->
@@ -129,10 +134,11 @@
       </select>
     </div>
 
-    <div id="itemsContainer"></div>
+    <!-- ✅ CARD VIEW CONTAINER -->
+    <div id="itemsContainer" style="display:none;"></div>
 
     <!-- 🗂️ TABLE -->
-    <table>
+    <table id="itemsTable">
       <thead>
         <tr>
           <th>Item</th>
@@ -187,8 +193,6 @@
        ============================== -->
 
   <input type="file" id="imageUploadInput" multiple accept="image/*" style="display:none" />
-
-  <script type="module" src="script.js"></script>
 
 </body>
 

@@ -11,6 +11,8 @@ import { parseItemFile } from "./items.logic.js";
 import { supabase } from "./supabase.js";
 import { importFromFolder } from "./items.import.js";
 import { initAuthEvents, initLogoutEvent } from "./items.events.js";
+import { renderItemsCards } from "./items.ui.js";
+import { initCardEvents } from "./items.events.js";
 
 export let currentUser = null;
 
@@ -555,29 +557,32 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function renderTable() {
 
-    if (window.innerWidth < 768) {
-      renderMobileCards(items);
+    if (currentView === "cards") {
+      document.getElementById("itemsTable").style.display = "none";
+      document.getElementById("itemsContainer").style.display = "block";
+
+      renderItemsCards(items);
+      initCardEvents();
+
     } else {
-      renderTableUI(
-        items,
-        PLATFORMS,
-        { formatDate, getDaysSince },
-        { searchQuery, statusFilter }
-      );
+
+      document.getElementById("itemsTable").style.display = "block";
+      document.getElementById("itemsContainer").style.display = "none";
+
+      if (window.innerWidth < 768) {
+        renderMobileCards(items);
+      } else {
+        renderTableUI(
+          items,
+          PLATFORMS,
+          { formatDate, getDaysSince },
+          { searchQuery, statusFilter }
+        );
+      }
     }
 
     lucide.createIcons();
     updateStats();
-  }
-
-  function setSearchQuery(value) {
-    searchQuery = value;
-    renderTable();
-  }
-
-  function setStatusFilter(value) {
-    statusFilter = value;
-    renderTable();
   }
 
   // ==============================
@@ -664,7 +669,47 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   };
 
+  function setSearchQuery(value) {
+    searchQuery = value;
+    renderTable();
+  }
+
+  function setStatusFilter(value) {
+    statusFilter = value;
+    renderTable();
+  }
+
   setupFilters(setSearchQuery, setStatusFilter);
+
+  // ==============================
+  // VIEW TOGGLE (TABLE / CARDS)
+  // ==============================
+
+  const tableViewBtn = document.getElementById("tableViewBtn");
+  const cardViewBtn = document.getElementById("cardViewBtn");
+
+  let currentView = "table";
+
+  if (tableViewBtn && cardViewBtn) {
+
+    tableViewBtn.addEventListener("click", () => {
+      currentView = "table";
+
+      document.getElementById("itemsTable").style.display = "block";
+      document.getElementById("itemsContainer").style.display = "none";
+    });
+
+    cardViewBtn.addEventListener("click", () => {
+      currentView = "cards";
+
+      document.getElementById("itemsTable").style.display = "none";
+      document.getElementById("itemsContainer").style.display = "block";
+
+      renderItemsCards(items);
+      initCardEvents();
+    });
+
+  }
 
   // ==============================
   // URL CLEANING
