@@ -262,6 +262,25 @@ th:first-child {
 }
 
 /* ==============================
+   TABLE WRAPPER (FIX OVERFLOW)
+============================== */
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  scrollbar-width: thin;
+  position: relative;
+  z-index: 1;
+}
+
+#itemsTable {
+  min-width: 900px; /* forces horizontal scroll instead of breaking layout */
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* ==============================
     FIXED WIDTH FOR "TÍTULO" COLUMN
 ============================== */
 

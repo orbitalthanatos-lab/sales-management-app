@@ -621,14 +621,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function renderTable() {
 
+    const wrapper = document.querySelector(".table-wrapper");
+
     if (currentView === "cards") {
+
       document.getElementById("itemsTable").style.display = "none";
       document.getElementById("itemsContainer").style.display = "block";
 
       renderItemsCards(items);
 
     } else {
-
+      
       document.getElementById("itemsTable").style.display = "block";
       document.getElementById("itemsContainer").style.display = "none";
 
