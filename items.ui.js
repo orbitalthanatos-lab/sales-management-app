@@ -492,37 +492,91 @@ export function renderItemsCards(items) {
     const fees = data.fees ?? 0;
     const profit = price - buy - fees;
 
+    const image = getImage(item);
+    const title = data.title || "Sin título";
+    const status = getStatusLabel(item.status);
+    const statusClass = getStatusClass(item.status).replace("status-", "");
+
     return `
-      <div class="card" data-id="${item.id}">
-        <div class="card-inner">
+      <div class="flip-card" data-id="${item.id}">
+        <div class="flip-card-inner">
 
           <!-- FRONT -->
-          <div class="card-front" style="background-image: url('${getImage(item)}')">
+          <div class="flip-card-front" style="background-image: url('${image}')">
+
             <div class="card-overlay">
-              <h3>${data.title || "Sin título"}</h3>
-              <p class="card-price">${price.toFixed(2)} €</p>
+
+              <div class="card-title">
+                ${title}
+              </div>
+
+              <div class="card-bottom">
+
+                <div class="card-price">
+                  ${price.toFixed(2)} €
+                </div>
+
+                <div class="card-status-badge ${statusClass}">
+                  ${status}
+                </div>
+
+              </div>
+
             </div>
 
             <button class="flip-btn">↻</button>
+
           </div>
 
           <!-- BACK -->
-          <div class="card-back">
-            <h3>${data.title || "Sin título"}</h3>
+          <div class="flip-card-back">
 
-            <p><strong>Compra:</strong> ${buy.toFixed(2)} €</p>
-            <p><strong>Venta:</strong> ${price.toFixed(2)} €</p>
-            <p><strong>Comisión:</strong> ${fees.toFixed(2)} €</p>
+            <div class="card-back-title">
+              ${title}
+            </div>
 
-            <p><strong>Beneficio:</strong> 
-              <span style="color:${profit >= 0 ? "#16a34a" : "#dc2626"}">
-                ${profit.toFixed(2)} €
-              </span>
-            </p>
+            <!-- FINANCIALS -->
+            <div class="card-back-section">
 
-            <p><strong>Estado:</strong> ${item.status}</p>
+              <div class="row">
+                <span>Compra</span>
+                <span>${buy.toFixed(2)} €</span>
+              </div>
+
+              <div class="row">
+                <span>Venta</span>
+                <span>${price.toFixed(2)} €</span>
+              </div>
+
+              <div class="row">
+                <span>Comisión</span>
+                <span>${fees.toFixed(2)} €</span>
+              </div>
+
+              <div class="row profit">
+                <span>Beneficio</span>
+                <span>${profit.toFixed(2)} €</span>
+              </div>
+
+            </div>
+
+            <!-- STATUS -->
+            <div class="card-back-section">
+
+              <div class="row">
+                <span>Estado</span>
+                <span>${status}</span>
+              </div>
+
+              <div class="row">
+                <span>Plataforma</span>
+                <span>${selected}</span>
+              </div>
+
+            </div>
 
             <button class="flip-btn">↻</button>
+
           </div>
 
         </div>

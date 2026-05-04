@@ -815,7 +815,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!flipBtn) return;
 
-    const card = flipBtn.closest(".card");
+    const card = flipBtn.closest(".flip-card");
 
     if (!card) return;
 
