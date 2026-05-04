@@ -12,7 +12,6 @@ import { supabase } from "./supabase.js";
 import { importFromFolder } from "./items.import.js";
 import { initAuthEvents, initLogoutEvent } from "./items.events.js";
 import { renderItemsCards } from "./items.ui.js";
-import { initCardEvents } from "./items.events.js";
 
 export let currentUser = null;
 
@@ -36,6 +35,68 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   initAuthEvents();
   initLogoutEvent();
+
+  // ==============================
+  // IMPORT MODAL EVENTS
+  // ==============================
+
+  const openImportBtn = document.getElementById("openImportModalBtn");
+  const importModal = document.getElementById("importModal");
+  const closeImportModal = document.getElementById("closeImportModal");
+
+  // Open
+  openImportBtn?.addEventListener("click", () => {
+    importModal.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+
+    // 🔥 Auto focus textarea
+    setTimeout(() => {
+      document.getElementById("importText")?.focus();
+    }, 100);
+  });
+
+  // Close (X)
+  closeImportModal?.addEventListener("click", () => {
+    importModal.classList.add("hidden");
+    document.body.style.overflow = "";
+  });
+
+  // Close clicking outside
+  importModal?.addEventListener("click", (e) => {
+    if (e.target === importModal) {
+      importModal.classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+  });
+
+  // ==============================
+  // HEADER BUTTON ACTIONS
+  // ==============================
+
+  const importFolderTopBtn = document.getElementById("importFolderTopBtn");
+  const masterPromptTopBtn = document.getElementById("masterPromptTopBtn");
+
+  document.getElementById("importBtn")?.addEventListener("click", importFromText);
+
+  // Trigger modal folder import button
+  importFolderTopBtn?.addEventListener("click", () => {
+    document.getElementById("importFolderBtn")?.click();
+  });
+
+  // Trigger modal prompt copy
+  masterPromptTopBtn?.addEventListener("click", () => {
+    document.getElementById("masterPromptBtn")?.click();
+  });
+
+  // ==============================
+  // DASHBOARD BUTTON
+  // ==============================
+
+  const dashboardBtn = document.getElementById("dashboardBtn");
+
+  dashboardBtn?.addEventListener("click", () => {
+    window.location.href = "dashboard.html";
+  });
 
   // ==============================
   // CHECK AUTH AND SHOW/HIDE LOGOUT
@@ -411,6 +472,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       alert("Item imported 🚀");
 
+      document.getElementById("importModal").classList.add("hidden");
+      document.body.style.overflow = "";
+
     } catch (error) {
       console.error(error);
       alert("Error importing item");
@@ -562,7 +626,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("itemsContainer").style.display = "block";
 
       renderItemsCards(items);
-      initCardEvents();
 
     } else {
 
@@ -688,28 +751,47 @@ document.addEventListener("DOMContentLoaded", async () => {
   const tableViewBtn = document.getElementById("tableViewBtn");
   const cardViewBtn = document.getElementById("cardViewBtn");
 
-  let currentView = "table";
+  let currentView = localStorage.getItem("inventoryView") || "table";
+
+  function updateActiveViewButton() {
+    tableViewBtn.classList.toggle("active", currentView === "table");
+    cardViewBtn.classList.toggle("active", currentView === "cards");
+  }
+
+  updateActiveViewButton();
 
   if (tableViewBtn && cardViewBtn) {
 
     tableViewBtn.addEventListener("click", () => {
       currentView = "table";
-
-      document.getElementById("itemsTable").style.display = "block";
-      document.getElementById("itemsContainer").style.display = "none";
+      localStorage.setItem("inventoryView", currentView);
+      updateActiveViewButton();
+      renderTable();
     });
 
     cardViewBtn.addEventListener("click", () => {
       currentView = "cards";
-
-      document.getElementById("itemsTable").style.display = "none";
-      document.getElementById("itemsContainer").style.display = "block";
-
-      renderItemsCards(items);
-      initCardEvents();
+      localStorage.setItem("inventoryView", currentView);
+      updateActiveViewButton();
+      renderTable();
     });
 
   }
+
+  // ==============================
+  // ESCAPE KEY TO CLOSE MODALS
+  // ==============================
+
+  document.addEventListener("keydown", (e) => {
+    const importModal = document.getElementById("importModal");
+
+    if (!importModal || importModal.classList.contains("hidden")) return;
+
+    if (e.key === "Escape") {
+      importModal.classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+  });
 
   // ==============================
   // URL CLEANING
@@ -720,6 +802,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     const match = url.match(/https?:\/\/[^\s]+/);
     return match ? match[0] : "";
   }
+
+  // ==============================
+  // GLOBAL CARD FLIP HANDLER
+  // ==============================
+
+  document.addEventListener("click", (e) => {
+    const flipBtn = e.target.closest(".flip-btn");
+
+    if (!flipBtn) return;
+
+    const card = flipBtn.closest(".card");
+
+    if (!card) return;
+
+    card.classList.toggle("flipped");
+  });
 
   loadItems();
 

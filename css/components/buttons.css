@@ -1,23 +1,47 @@
 /* ==============================
-   BUTTON COMPONENT
+   NAV BUTTONS (HEADER)
 ============================== */
 
-button, #masterPromptBtn {
-  background-color: #3b82f6;
+.nav-btn {
+  background: transparent;
   border: none;
-  padding: 10px 15px;
-  border-radius: 8px;
-  color: white;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  color: #94a3b8;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition: all 0.2s ease;
 }
 
-button:hover, #masterPromptBtn:hover {
-  background-color: #2563eb;
+/* Hover */
+.nav-btn:hover {
+  background: rgba(80, 71, 71, 0.05);
+  color: #e2e8f0;
 }
 
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
+/* Active */
+.nav-btn.active {
+  background: linear-gradient(90deg, #84cc16, #22c55e);
+  color: #0f172a;
+  font-weight: 500;
+}
+
+.header .nav-btn {
+  all: unset;
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.header .nav-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease;
+}
+
+.header .nav-btn.active:hover {
+  opacity: 0.9;
 }

@@ -66,61 +66,68 @@
 
     <!-- HEADER -->
     <div class="header">
-      <h1>📦 Inventario</h1>
 
-      <div style="display:flex; gap:10px;">
-        <button onclick="window.location.href='dashboard.html'">📊 Dashboard</button>
-        <!-- <button onclick="window.location.href='sales.html'">🖼️ Sales Gallery</button> -->
+      <!-- LEFT -->
+      <div class="header-left">
+        <h1>📦 Inventario</h1>
+      </div>
 
+      <!-- RIGHT -->
+      <div class="header-right">
+
+        <!-- ACTION BUTTONS -->
+        <div class="header-actions">
+
+          <button id="dashboardBtn" class="nav-btn">
+            📊 Dashboard
+          </button>
+
+          <button id="openImportModalBtn" class="nav-btn">
+            ➕ Import
+          </button>
+
+          <button id="importFolderBtn" class="nav-btn">
+            📁 Folder
+          </button>
+
+          <button id="masterPromptBtn" class="nav-btn">
+            📋 Prompt
+          </button>
+
+          <button id="tableViewBtn" class="nav-btn active">
+            Table
+          </button>
+
+          <button id="cardViewBtn" class="nav-btn">
+            Cards
+          </button>
+
+        </div>
+
+        <!-- USER -->
         <div id="userMenu" style="position:relative; display:flex; align-items:center; cursor:pointer;">
 
           <img id="userAvatar" src="" style="
-            width:32px;
-            height:32px;
-            border-radius:50%;
-            object-fit:cover;
-          ">
+        width:32px;
+        height:32px;
+        border-radius:50%;
+        object-fit:cover;
+      ">
 
           <span id="userName" style="margin-left:8px; font-size:14px;"></span>
 
-          <!-- Dropdown -->
           <div id="userDropdown">
-
             <div class="dropdown-item" id="accountBtn">My Account</div>
             <div class="dropdown-divider"></div>
             <div class="dropdown-item" id="logoutBtn">Logout</div>
-
           </div>
 
         </div>
-      </div>
 
+      </div>
     </div>
 
     <div class="stats" id="statsContainer"></div><br>
-
-    <!-- ➕ IMPORT BOX -->
-    <div class="import-box">
-      <h3>Paste Item</h3>
-
-      <textarea id="importText" rows="10" placeholder="Paste your data here..."></textarea>
-
-      <button id="importBtn" onclick="importFromText()">Import</button>
-
-      <button id="importFolderBtn">Import Folder</button>
-
-      <input type="file" id="folderInput" webkitdirectory multiple hidden />
-
-      <button id="masterPromptBtn" class="btn-secondary">Copy Prompt</button>
-
-      <div id="importStatus" style="margin-top:10px; font-size:14px; color:#94a3b8;"></div>
-
-      <div class="view-toggle">
-        <button id="tableViewBtn" class="active">Table</button>
-        <button id="cardViewBtn">Cards</button>
-      </div>
-
-    </div>
 
     <!-- 🔍 CONTROLS -->
     <div class="table-controls">
@@ -194,6 +201,39 @@
 
   <input type="file" id="imageUploadInput" multiple accept="image/*" style="display:none" />
 
+  <!-- ==============================
+      IMPORT MODAL
+  ============================== -->
+
+  <div id="importModal" class="modal hidden">
+
+    <div class="modal-content import-modal">
+
+      <div class="modal-header">
+        <h2>📥 Import Item</h2>
+        <span id="closeImportModal" class="close">&times;</span>
+      </div>
+
+      <textarea 
+        id="importText" 
+        rows="10" 
+        placeholder="Paste your data here..."
+      ></textarea>
+
+      <div class="modal-actions">
+        <button id="importBtn">Import</button>
+        <button id="importFolderTopBtn">Import Folder</button>
+        <button id="masterPromptTopBtn" class="btn-secondary">Copy Prompt</button>
+      </div>
+
+      <div id="importStatus" class="modal-status"></div>
+
+    </div>
+
+  </div>
+
+  <input type="file" id="folderInput" webkitdirectory multiple hidden />
+  
 </body>
 
 </html>

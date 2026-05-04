@@ -3,8 +3,43 @@
 ============================== */
 
 .header {
+  position: relative;
+
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+
+  padding: 12px 20px;
+  margin: 16px auto;
+  max-width: 1200px;
+
+  background: #0f172a;
+  border-radius: 16px;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.header-left h1 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.header-left {
+  z-index: 2;
+}
+
+.header-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 2;
+}
+
+.header-actions {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  gap: 10px;
 }

@@ -3,6 +3,21 @@
 ============================== */
 
 .container {
-  width: 90%;
-  margin: 20px auto;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+
+  background: #020617;
+  border-radius: 16px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
+
+/* ==============================
+   BODY BACKGROUND
+============================== */
+/*
+body {
+  background: linear-gradient(180deg, #020617, #020617);
+}
+*/
