@@ -69,50 +69,51 @@
 
       <!-- LEFT -->
       <div class="header-left">
-        <h1>📦 Inventario</h1>
+        <!-- empty or logo -->
+      </div>
+
+      <!-- ACTION BUTTONS -->
+      <div id="mobileMenu" class="header-actions">
+
+        <div class="nav-pill"></div>
+
+        <button id="dashboardBtn" class="nav-btn">
+          Dashboard
+        </button>
+
+        <button id="openImportModalBtn" class="nav-btn">
+          Import
+        </button>
+
+        <button id="importFolderBtn" class="nav-btn">
+          Folder
+        </button>
+
+        <button id="masterPromptBtn" class="nav-btn">
+          Prompt
+        </button>
+
+        <button id="tableViewBtn" class="nav-btn active">
+          Table
+        </button>
+
+        <button id="cardViewBtn" class="nav-btn">
+          Cards
+        </button>
       </div>
 
       <!-- RIGHT -->
-      <div class="header-right">
-
-        <!-- ACTION BUTTONS -->
-        <div class="header-actions">
-
-          <button id="dashboardBtn" class="nav-btn">
-            📊 Dashboard
-          </button>
-
-          <button id="openImportModalBtn" class="nav-btn">
-            ➕ Import
-          </button>
-
-          <button id="importFolderBtn" class="nav-btn">
-            📁 Folder
-          </button>
-
-          <button id="masterPromptBtn" class="nav-btn">
-            📋 Prompt
-          </button>
-
-          <button id="tableViewBtn" class="nav-btn active">
-            Table
-          </button>
-
-          <button id="cardViewBtn" class="nav-btn">
-            Cards
-          </button>
-
-        </div>
+      <div class="header-right">        
 
         <!-- USER -->
         <div id="userMenu" style="position:relative; display:flex; align-items:center; cursor:pointer;">
 
           <img id="userAvatar" src="" style="
-        width:32px;
-        height:32px;
-        border-radius:50%;
-        object-fit:cover;
-      ">
+                    width:32px;
+                    height:32px;
+                    border-radius:50%;
+                    object-fit:cover;
+                  ">
 
           <span id="userName" style="margin-left:8px; font-size:14px;"></span>
 
@@ -124,13 +125,21 @@
 
         </div>
 
+        <button id="menuToggle" class="menu-toggle">☰</button>
+
       </div>
     </div>
 
     <div class="stats" id="statsContainer"></div><br>
 
+    <!-- LEFT -->
+    <div class="header-left">
+      <h1>Inventario</h1>
+    </div>
+
     <!-- 🔍 CONTROLS -->
     <div class="table-controls">
+
       <input type="text" id="searchInput" placeholder="Buscar por título o ITEM-XXX...">
 
       <select id="statusFilter">
@@ -216,11 +225,7 @@
         <span id="closeImportModal" class="close">&times;</span>
       </div>
 
-      <textarea 
-        id="importText" 
-        rows="10" 
-        placeholder="Paste your data here..."
-      ></textarea>
+      <textarea id="importText" rows="10" placeholder="Paste your data here..."></textarea>
 
       <div class="modal-actions">
         <button id="importBtn">Import</button>
@@ -235,6 +240,8 @@
   </div>
 
   <input type="file" id="folderInput" webkitdirectory multiple hidden />
+
+  <div id="menuOverlay" class="menu-overlay"></div>
 
 </body>
 

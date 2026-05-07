@@ -3,10 +3,11 @@
 ============================== */
 
 .header {
-  position: relative;
+  position: relative; /* 🔥 required */
 
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   padding: 12px 20px;
   margin: 16px auto;
@@ -14,13 +15,13 @@
 
   background: #0f172a;
   border-radius: 16px;
-
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
 .header-left h1 {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
+  letter-spacing: 0.3px;
 }
 
 .header-left {
@@ -28,18 +29,106 @@
 }
 
 .header-right {
-  margin-left: auto;
   display: flex;
   align-items: center;
   gap: 12px;
-  z-index: 2;
+  margin-left: auto;
 }
 
 .header-actions {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%); /* 🔥 TRUE CENTER */
 
   display: flex;
-  gap: 10px;
+  align-items: center;
+  gap: 8px;
+
+  /*background: rgba(187, 6, 6, 0.04);
+  padding: 6px;
+  border-radius: 999px;*/
+}
+
+.header > .header-actions {
+  justify-self: center;
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 22px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* ==============================
+   RESPONSIVE HEADER
+============================== */
+
+@media (max-width: 900px) {
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .header-actions {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .header-actions.active {
+    display: flex;
+  }
+
+  .header-actions .nav-btn {
+    width: 100%;
+    text-align: left;
+    padding: 12px;
+  }
+}
+
+/* ==============================
+   MOBILE MENU PRO
+============================== */
+
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0);  /* darker, no blur */
+  backdrop-filter: none;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s ease;
+
+  z-index: 5;
+}
+
+.menu-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Animate menu */
+@media (max-width: 900px) {
+
+  .header-actions {
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: 0.25s ease;
+  }
+
+  .header-actions.active {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
 }

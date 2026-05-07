@@ -3,45 +3,31 @@
 ============================== */
 
 .nav-btn {
-  background: transparent;
-  border: none;
+  position: relative;
+  z-index: 2;
+
   padding: 8px 14px;
   border-radius: 999px;
+
+  background: transparent;
+  border: none;
+  color: #cbd5f5;
   font-size: 14px;
-  color: #94a3b8;
   cursor: pointer;
-  transition: all 0.2s ease;
+
+  transition: color 0.25s ease;
 }
 
 /* Hover */
 .nav-btn:hover {
-  background: rgba(80, 71, 71, 0.05);
-  color: #e2e8f0;
+  background: rgba(59, 130, 246, 0.15);
+  color: #ffffff;
+  border-color: rgba(59, 130, 246, 0.3);
 }
 
 /* Active */
 .nav-btn.active {
-  background: linear-gradient(90deg, #84cc16, #22c55e);
-  color: #0f172a;
-  font-weight: 500;
-}
-
-.header .nav-btn {
-  all: unset;
-  display: inline-block;
-  padding: 8px 14px;
-  border-radius: 999px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.header .nav-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
-  transition: all 0.2s ease;
-}
-
-.header .nav-btn.active:hover {
-  opacity: 0.9;
+  background: #2563eb;
+  color: white;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
 }

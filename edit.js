@@ -244,9 +244,9 @@ function renderImages() {
     const images = currentItem.images || [];
 
     container.innerHTML = images.map((img, i) => `
-    <div class="image-item">
+    <div class="edit-image-item">
       <img src="${img}">
-      <button class="delete-btn" onclick="deleteImage(${i})">×</button>
+      <button class="edit-delete-btn" onclick="deleteImage(${i})">×</button>
     </div>
   `).join("");
 }

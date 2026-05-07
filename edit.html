@@ -18,14 +18,14 @@
     <div class="edit-page">
         <div class="edit-container">
 
-            <div class="header">
-                <div class="header-left">
+            <div class="edit-header">
+                <div class="edit-header-left">
                     <h1 id="editTitle"></h1>                    
-                    <span id="itemIdBadge" class="item-badge">item-000</span>
+                    <span id="itemIdBadge" class="edit-item-badge">item-000</span>
                     <span id="itemStatusBadge" class="badge-status"></span>
                 </div>
 
-                <div class="header-actions">
+                <div class="edit-header-actions">
                     <button class="btn secondary" onclick="window.history.back()">⬅ Back</button>
                     <button class="btn primary" onclick="saveItem()">💾 Save</button>
                 </div>
@@ -34,7 +34,7 @@
             <!-- IMAGES -->
             <div class="form-card">
                 <h3>Images</h3>
-                <div id="imageManager" class="image-manager"></div>
+                <div id="imageManager" class="edit-image-manager"></div>
                 <button onclick="uploadImages()">📷 Add Images</button>
                 <input type="file" id="imageUploadInput" multiple hidden>
             </div>
@@ -52,7 +52,7 @@
 
                 <h3>Información del producto</h3>
 
-                <div class="section-divider"></div>
+                <div class="edit-section-divider"></div>
 
                 <!-- TITLE -->
                 <div class="floating-group">
@@ -73,7 +73,7 @@
                 </div>
 
                 <!-- PRICE, BUY, FEES -->
-                <div class="grid-3">
+                <div class="edit-grid-3">
                     <div class="floating-group">
                         <input id="price" type="number" placeholder=" ">
                         <label>Venta</label>
@@ -91,10 +91,10 @@
                 </div>
 
                 <h3>Estado y venta</h3>
-                <div class="section-divider"></div>
+                <div class="edit-section-divider"></div>
 
                 <!-- STATUS, SOLD PLATFORM -->
-                <div class="grid-2">
+                <div class="edit-grid-2">
                     <div class="select-group">
                         <select id="status">
                             <option>Disponible</option>
@@ -116,7 +116,7 @@
                 </div>
 
                 <!-- DATES -->
-                <div class="grid-2">
+                <div class="edit-grid-2">
                     <div class="floating-group">
                         <input id="datePublished" type="date" placeholder=" ">
                         <label>Fecha Publicada</label>

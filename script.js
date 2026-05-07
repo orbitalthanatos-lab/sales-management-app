@@ -1163,4 +1163,31 @@ document.addEventListener("DOMContentLoaded", async () => {
   window.importFromText = importFromText;
   window.loadItems = loadItems;
 
+
+  const menuToggle = document.getElementById("menuToggle");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  if (menuToggle && mobileMenu) {
+    const overlay = document.getElementById("menuOverlay");
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = mobileMenu.classList.toggle("active");
+
+      menuToggle.textContent = isOpen ? "✕" : "☰";
+
+      overlay.classList.toggle("active", isOpen);
+
+      document.body.style.overflow = isOpen ? "hidden" : "";
+    });
+
+    // Close when clicking overlay
+    overlay.addEventListener("click", () => {
+      mobileMenu.classList.remove("active");
+      overlay.classList.remove("active");
+      menuToggle.textContent = "☰";
+      document.body.style.overflow = "";
+    });
+  }
+
+
 });
