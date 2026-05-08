@@ -93,3 +93,134 @@
   }
 
 }
+
+/* ==============================
+   ACTION MENU (MOBILE)
+============================== */
+
+.actions-btn {
+  display: none;
+
+  background: transparent;
+  border: none;
+
+  color: white;
+  font-size: 24px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  padding: 4px 8px;
+  border-radius: 8px;
+
+  transition: background 0.2s ease;
+}
+
+.actions-btn:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/* DROPDOWN */
+
+.actions-dropdown {
+  position: absolute;
+
+  top: 42px;
+  right: 0;
+
+  width: 180px;
+
+  background: #1e293b;
+
+  border: 1px solid rgba(255,255,255,0.06);
+
+  border-radius: 14px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
+
+  z-index: 999;
+
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+/* HIDDEN STATE */
+
+.actions-dropdown.hidden {
+  opacity: 0;
+  transform: translateY(-8px);
+
+  pointer-events: none;
+}
+
+/* ITEMS */
+
+.actions-dropdown .dropdown-item {
+  width: 100%;
+
+  background: transparent;
+  border: none;
+
+  color: white;
+
+  text-align: left;
+
+  padding: 14px 16px;
+
+  font-size: 14px;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+.actions-dropdown .dropdown-item:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+/* HIDDEN */
+
+.hidden {
+  display: none;
+}
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+
+  .actions-btn {
+    display: block;
+  }
+
+}
+
+/* ==============================
+   MOBILE HEADER POLISH
+============================== */
+
+@media (max-width: 900px) {
+
+  .header {
+    padding: 14px 16px;
+  }
+
+  .header-right {
+    gap: 6px;
+  }
+
+  #userMenu {
+    gap: 8px;
+  }
+
+  #userName {
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+}

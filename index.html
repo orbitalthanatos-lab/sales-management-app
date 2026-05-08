@@ -103,17 +103,33 @@
       </div>
 
       <!-- RIGHT -->
-      <div class="header-right">        
+      <div class="header-right">
+
+        <!-- ACTION MENU (MOBILE) -->
+        <div id="actionsMenu" style="position:relative;">
+
+          <button id="actionsMenuBtn" class="actions-btn">⋯</button>
+
+          <div id="actionsDropdown" class="actions-dropdown hidden">
+            <button class="dropdown-item" id="mobileDashboardBtn">Dashboard</button>
+            <button class="dropdown-item" id="mobileImportBtn">Import</button>
+            <button class="dropdown-item" id="mobileFolderBtn">Folder</button>
+            <button class="dropdown-item" id="mobilePromptBtn">Prompt</button>
+            <button class="dropdown-item" id="mobileTableBtn">Table</button>
+            <button class="dropdown-item" id="mobileCardsBtn">Cards</button>
+          </div>
+
+        </div>
 
         <!-- USER -->
         <div id="userMenu" style="position:relative; display:flex; align-items:center; cursor:pointer;">
 
           <img id="userAvatar" src="" style="
-                    width:32px;
-                    height:32px;
-                    border-radius:50%;
-                    object-fit:cover;
-                  ">
+              width:32px;
+              height:32px;
+              border-radius:50%;
+              object-fit:cover;
+            ">
 
           <span id="userName" style="margin-left:8px; font-size:14px;"></span>
 
@@ -126,6 +142,7 @@
         </div>
 
       </div>
+
     </div>
 
     <div class="stats" id="statsContainer"></div><br>

@@ -1164,3 +1164,63 @@ document.addEventListener("DOMContentLoaded", async () => {
   window.loadItems = loadItems;
 
 });
+
+// ==============================
+// ACTION MENU (MOBILE)
+// ==============================
+
+const actionsBtn = document.getElementById("actionsMenuBtn");
+const actionsDropdown = document.getElementById("actionsDropdown");
+
+actionsBtn?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  actionsDropdown.classList.toggle("hidden");
+});
+
+// close when clicking outside
+document.addEventListener("click", () => {
+  actionsDropdown?.classList.add("hidden");
+});
+
+// prevent closing when clicking inside
+actionsDropdown?.addEventListener("click", (e) => {
+  e.stopPropagation();
+});
+
+// ==============================
+// MOBILE MENU ACTIONS
+// ==============================
+
+function closeActionsMenu() {
+  actionsDropdown?.classList.add("hidden");
+}
+
+document.getElementById("mobileDashboardBtn")?.addEventListener("click", () => {
+  document.getElementById("dashboardBtn")?.click();
+  closeActionsMenu();
+});
+
+document.getElementById("mobileImportBtn")?.addEventListener("click", () => {
+  document.getElementById("openImportModalBtn")?.click();
+  closeActionsMenu();
+});
+
+document.getElementById("mobileFolderBtn")?.addEventListener("click", () => {
+  document.getElementById("importFolderBtn")?.click();
+  closeActionsMenu();
+});
+
+document.getElementById("mobilePromptBtn")?.addEventListener("click", () => {
+  document.getElementById("masterPromptBtn")?.click();
+  closeActionsMenu();
+});
+
+document.getElementById("mobileTableBtn")?.addEventListener("click", () => {
+  document.getElementById("tableViewBtn")?.click();
+  closeActionsMenu();
+});
+
+document.getElementById("mobileCardsBtn")?.addEventListener("click", () => {
+  document.getElementById("cardViewBtn")?.click();
+  closeActionsMenu();
+});
