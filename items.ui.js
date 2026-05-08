@@ -597,13 +597,20 @@ export function renderUserInfo(user) {
   const nameEl = document.getElementById("userName");
   const avatarEl = document.getElementById("userAvatar");
 
-  const name =
+  const fullName =
     user.user_metadata?.full_name ||
     user.user_metadata?.name ||
     "";
 
+  // Convert full name to initials
+  const initials = fullName
+    .split(" ")
+    .filter(Boolean)
+    .map(word => word[0].toUpperCase())
+    .join(".");
+
   if (nameEl) {
-    nameEl.innerText = name;
+    nameEl.innerText = initials ? `${initials}.` : "";
   }
 
   if (avatarEl) {

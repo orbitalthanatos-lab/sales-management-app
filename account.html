@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account</title>
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="../css/main.css">
+
+  <!-- Prevent favicon errors -->
+  <link rel="icon" href="data:,">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon.png">
+
+  <script type="module" src="./account.js"></script>
+</head>
+<body>
+
+  <div class="account-page">
+    <div class="account-card">
+
+      <img id="accountAvatar" class="account-avatar" src="" alt="Profile Photo">
+
+      <h1 class="account-title">My Account</h1>
+
+      <div class="account-info">
+        <div class="account-row">
+          <span class="account-label">Full Name</span>
+          <span id="accountName" class="account-value">-</span>
+        </div>
+
+        <div class="account-row">
+          <span class="account-label">Email</span>
+          <span id="accountEmail" class="account-value">-</span>
+        </div>
+
+        <div class="account-row">
+          <span class="account-label">Provider</span>
+          <span id="accountProvider" class="account-value">-</span>
+        </div>
+      </div>
+
+      <button id="backBtn" class="nav-btn">
+        ← Back to Inventory
+      </button>
+
+    </div>
+  </div>
+
+</body>
+</html>

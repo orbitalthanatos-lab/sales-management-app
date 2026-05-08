@@ -23,11 +23,10 @@
 @import url("./components/dropdown.css");
 
 /* Pages */
+@import url("./pages/account.css");
 @import url("./pages/dashboard.css");
+@import url("./pages/edit.css");
 @import url("./pages/inventory.css");
 
 /* Utilities */
 @import url("./utilities/utilities.css");
-
-/* Edit page */
-@import url("./pages/edit.css");

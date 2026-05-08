@@ -108,11 +108,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   initActionsMenu();
 
   // ==============================
-  // ACCOUNT PAGE (COMING SOON)
+  // ACCOUNT PAGE
   // ==============================
 
   document.getElementById("accountBtn")?.addEventListener("click", () => {
-    alert("Account page coming soon");
+    window.location.href = "account.html";
   });
 
   // ==============================
