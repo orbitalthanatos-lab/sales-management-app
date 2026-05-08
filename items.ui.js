@@ -586,3 +586,29 @@ export function renderItemsCards(items) {
     </div>
   `;
 }
+
+// ==============================
+// USER INFO
+// ==============================
+
+export function renderUserInfo(user) {
+  if (!user) return;
+
+  const nameEl = document.getElementById("userName");
+  const avatarEl = document.getElementById("userAvatar");
+
+  const name =
+    user.user_metadata?.full_name ||
+    user.user_metadata?.name ||
+    "";
+
+  if (nameEl) {
+    nameEl.innerText = name;
+  }
+
+  if (avatarEl) {
+    avatarEl.src =
+      user.user_metadata?.avatar_url ||
+      "https://via.placeholder.com/32";
+  }
+}

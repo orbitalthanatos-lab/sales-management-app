@@ -4,14 +4,13 @@
 
 // import { db, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "./firebase.js";
 import { calculateProfitValue, calculateStats, formatDate, getDaysSince, detectPlatform } from "./items.logic.js";
-import { renderInventoryStats, renderTableUI, renderMobileCards } from "./items.ui.js";
+import {renderInventoryStats, renderTableUI, renderMobileCards, renderItemsCards, renderUserInfo} from "./items.ui.js";
 import { setupFilters } from "./items.events.js";
 import { createCard } from "./ui.components.js";
 import { parseItemFile } from "./items.logic.js";
 import { supabase } from "./supabase.js";
 import { importFromFolder } from "./items.import.js";
-import { initAuthEvents, initLogoutEvent } from "./items.events.js";
-import { renderItemsCards } from "./items.ui.js";
+import { initAuthEvents, initLogoutEvent, initUserMenu, initActionsMenu} from "./items.events.js";
 
 export let currentUser = null;
 
@@ -104,8 +103,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const user = await initUser();
 
-  renderUserInfo();
+  renderUserInfo(currentUser);
   initUserMenu();
+  initActionsMenu();
 
   // ==============================
   // ACCOUNT PAGE (COMING SOON)
@@ -114,60 +114,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("accountBtn")?.addEventListener("click", () => {
     alert("Account page coming soon");
   });
-
-  // ==============================
-  // RENDER USER INFO
-  // ==============================
-
-  function renderUserInfo() {
-    if (!currentUser) return;
-
-    const nameEl = document.getElementById("userName");
-    const avatarEl = document.getElementById("userAvatar");
-
-    const name =
-      currentUser.user_metadata?.full_name ||
-      currentUser.user_metadata?.name ||
-      "";
-
-    if (nameEl) {
-      nameEl.innerText = name;
-    }
-
-    if (avatarEl) {
-      avatarEl.src =
-        currentUser.user_metadata?.avatar_url ||
-        "https://via.placeholder.com/32";
-    }
-  }
-
-  // ==============================
-  // USER MENU
-  // ==============================
-
-  function initUserMenu() {
-    const menu = document.getElementById("userMenu");
-    const dropdown = document.getElementById("userDropdown");
-
-    if (!menu || !dropdown) return;
-
-    // Toggle dropdown
-    menu.addEventListener("click", (e) => {
-      e.stopPropagation();
-      dropdown.style.display =
-        dropdown.classList.toggle("open");
-    });
-
-    // Close when clicking outside
-    document.addEventListener("click", () => {
-      dropdown.classList.remove("open");
-    });
-
-    // Prevent closing when clicking inside dropdown
-    dropdown.addEventListener("click", (e) => {
-      e.stopPropagation();
-    });
-  }
 
   // ==============================
   // LOAD ITEMS
@@ -1163,64 +1109,4 @@ document.addEventListener("DOMContentLoaded", async () => {
   window.importFromText = importFromText;
   window.loadItems = loadItems;
 
-});
-
-// ==============================
-// ACTION MENU (MOBILE)
-// ==============================
-
-const actionsBtn = document.getElementById("actionsMenuBtn");
-const actionsDropdown = document.getElementById("actionsDropdown");
-
-actionsBtn?.addEventListener("click", (e) => {
-  e.stopPropagation();
-  actionsDropdown.classList.toggle("hidden");
-});
-
-// close when clicking outside
-document.addEventListener("click", () => {
-  actionsDropdown?.classList.add("hidden");
-});
-
-// prevent closing when clicking inside
-actionsDropdown?.addEventListener("click", (e) => {
-  e.stopPropagation();
-});
-
-// ==============================
-// MOBILE MENU ACTIONS
-// ==============================
-
-function closeActionsMenu() {
-  actionsDropdown?.classList.add("hidden");
-}
-
-document.getElementById("mobileDashboardBtn")?.addEventListener("click", () => {
-  document.getElementById("dashboardBtn")?.click();
-  closeActionsMenu();
-});
-
-document.getElementById("mobileImportBtn")?.addEventListener("click", () => {
-  document.getElementById("openImportModalBtn")?.click();
-  closeActionsMenu();
-});
-
-document.getElementById("mobileFolderBtn")?.addEventListener("click", () => {
-  document.getElementById("importFolderBtn")?.click();
-  closeActionsMenu();
-});
-
-document.getElementById("mobilePromptBtn")?.addEventListener("click", () => {
-  document.getElementById("masterPromptBtn")?.click();
-  closeActionsMenu();
-});
-
-document.getElementById("mobileTableBtn")?.addEventListener("click", () => {
-  document.getElementById("tableViewBtn")?.click();
-  closeActionsMenu();
-});
-
-document.getElementById("mobileCardsBtn")?.addEventListener("click", () => {
-  document.getElementById("cardViewBtn")?.click();
-  closeActionsMenu();
 });

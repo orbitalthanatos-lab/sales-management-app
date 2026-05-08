@@ -69,3 +69,85 @@ export function initCardEvents() {
     }
   });
 }
+
+// ==============================
+// HEADER: USER MENU
+// ==============================
+
+export function initUserMenu() {
+  const menu = document.getElementById("userMenu");
+  const dropdown = document.getElementById("userDropdown");
+
+  if (!menu || !dropdown) return;
+
+  menu.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dropdown.classList.toggle("open");
+  });
+
+  document.addEventListener("click", () => {
+    dropdown.classList.remove("open");
+  });
+
+  dropdown.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+}
+
+// ==============================
+// HEADER: MOBILE ACTIONS MENU
+// ==============================
+
+export function initActionsMenu() {
+  const actionsBtn = document.getElementById("actionsMenuBtn");
+  const actionsDropdown = document.getElementById("actionsDropdown");
+
+  if (!actionsBtn || !actionsDropdown) return;
+
+  actionsBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    actionsDropdown.classList.toggle("hidden");
+  });
+
+  document.addEventListener("click", () => {
+    actionsDropdown.classList.add("hidden");
+  });
+
+  actionsDropdown.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+
+  function closeActionsMenu() {
+    actionsDropdown.classList.add("hidden");
+  }
+
+  document.getElementById("mobileDashboardBtn")?.addEventListener("click", () => {
+    document.getElementById("dashboardBtn")?.click();
+    closeActionsMenu();
+  });
+
+  document.getElementById("mobileImportBtn")?.addEventListener("click", () => {
+    document.getElementById("openImportModalBtn")?.click();
+    closeActionsMenu();
+  });
+
+  document.getElementById("mobileFolderBtn")?.addEventListener("click", () => {
+    document.getElementById("importFolderBtn")?.click();
+    closeActionsMenu();
+  });
+
+  document.getElementById("mobilePromptBtn")?.addEventListener("click", () => {
+    document.getElementById("masterPromptBtn")?.click();
+    closeActionsMenu();
+  });
+
+  document.getElementById("mobileTableBtn")?.addEventListener("click", () => {
+    document.getElementById("tableViewBtn")?.click();
+    closeActionsMenu();
+  });
+
+  document.getElementById("mobileCardsBtn")?.addEventListener("click", () => {
+    document.getElementById("cardViewBtn")?.click();
+    closeActionsMenu();
+  });
+}
