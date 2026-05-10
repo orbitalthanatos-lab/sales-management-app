@@ -503,7 +503,7 @@ export function renderItemsCards(items) {
       .filter(platform => item.links[platform])
       .map(platform => {
         // Build icon path directly from platform name
-        const iconPath = `Images/platforms/${platform}.png`;
+        const iconPath = `images/platforms/${platform}.png`;
 
         const isSelected = platform === selected;
         const isSold = item.status === "Vendido" && platform === item.soldPlatform;

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shared Items</title>
+    <link rel="stylesheet" href="share.css" />
+</head>
+<body>
+    <header class="share-header">
+        <h1>Available Items</h1>
+        <p>Browse all currently available items.</p>
+    </header>
+
+    <main class="share-main">
+        <div class="share-toolbar">
+            <input
+                type="search"
+                id="searchInput"
+                class="share-search"
+                placeholder="Search items..."
+                autocomplete="off"
+            />
+        </div>
+
+        <div id="itemsGrid" class="items-grid"></div>
+    </main>
+
+    <script type="module" src="share.js"></script>
+</body>
+</html>
