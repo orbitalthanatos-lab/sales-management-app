@@ -494,8 +494,37 @@ export function renderItemsCards(items) {
 
     const image = getImage(item);
     const title = data.title || "Sin título";
+    const description = data.description || "";
     const status = getStatusLabel(item.status);
     const statusClass = getStatusClass(item.status).replace("status-", "");
+
+    // Get all platforms that have links
+    const activePlatforms = Object.keys(item.links || {})
+      .filter(platform => item.links[platform])
+      .map(platform => {
+        // Build icon path directly from platform name
+        const iconPath = `Images/platforms/${platform}.png`;
+
+        const isSelected = platform === selected;
+        const isSold = item.status === "Vendido" && platform === item.soldPlatform;
+
+        return `
+          <a
+            href="${item.links[platform]}"
+            target="_blank"
+            onclick="event.stopPropagation()"
+          >
+            <img
+              src="${iconPath}"
+              title="${platform}"
+              class="card-platform-icon
+                    ${isSelected ? "selected" : ""}
+                    ${isSold ? "sold" : ""}"
+            >
+          </a>
+        `;
+      })
+      .join("");
 
     return `
       <div class="flip-card" data-id="${item.id}">
@@ -569,8 +598,23 @@ export function renderItemsCards(items) {
               </div>
 
               <div class="row">
-                <span>Plataforma</span>
-                <span>${selected}</span>
+                <span>Plataformas</span>
+                <span class="card-platforms">
+                  ${activePlatforms}
+                </span>
+              </div>
+
+            </div>
+
+            <!-- DESCRIPTION -->
+            <div class="card-back-section">
+
+              <div class="card-back-label">
+                Descripción
+              </div>
+
+              <div class="card-description">
+                ${description}
               </div>
 
             </div>

@@ -483,9 +483,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ==============================
 
   const PLATFORMS = {
-    wallapop: { name: "Wallapop", icon: "images/Wallapop_icon.jpg" },
-    vinted: { name: "Vinted", icon: "images/Vinted_icon.jpg" },
-    milanuncios: { name: "Milanuncios", icon: "images/Milanuncios_icon.jpg" }
+    wallapop: { name: "Wallapop", icon: "images/platforms/wallapop.png" },
+    vinted: { name: "Vinted", icon: "images/platforms/vinted.png" },
+    milanuncios: { name: "Milanuncios", icon: "images/platforms/milanuncios.png" }
   };
 
   // ==============================

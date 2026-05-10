@@ -4,7 +4,8 @@
 
 .header {
   position: relative; /* 🔥 required */
-
+  z-index: 100;
+  
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -223,4 +224,55 @@
     white-space: nowrap;
   }
 
+}
+
+/* ==============================
+   PREMIUM HEADER ANIMATIONS
+============================== */
+
+/* Header navigation buttons */
+.header .nav-btn,
+.actions-btn {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.header .nav-btn:hover,
+.actions-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* User menu hover */
+#userMenu {
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+#userMenu:hover {
+  transform: translateY(-1px);
+}
+
+/* Dropdown items */
+#userDropdown .dropdown-item,
+.actions-dropdown .dropdown-item {
+  transition:
+    background 0.2s ease,
+    padding-left 0.2s ease;
+}
+
+#userDropdown .dropdown-item:hover,
+.actions-dropdown .dropdown-item:hover {
+  padding-left: 20px;
+}
+
+/* Dropdown container lift */
+#userDropdown,
+.actions-dropdown {
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 }

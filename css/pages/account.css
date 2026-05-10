@@ -89,3 +89,39 @@
     text-align: left;
   }
 }
+
+/* ==============================
+   PREMIUM ACCOUNT ANIMATIONS
+============================== */
+
+.account-card {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.account-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.45);
+}
+
+.account-avatar {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.account-avatar:hover {
+  transform: scale(1.03);
+}
+
+.account-row {
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.account-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateX(2px);
+}
