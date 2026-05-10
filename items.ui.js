@@ -553,6 +553,27 @@ export function renderItemsCards(items) {
 
             </div>
 
+            <!-- QUICK ACTIONS -->
+            <div class="card-back-actions" onclick="event.stopPropagation()">
+
+              <button
+                class="card-action-btn edit"
+                onclick="editItem('${item.id}')"
+                title="Editar"
+              >
+                ✏️
+              </button>
+
+              <button
+                class="card-action-btn delete"
+                onclick="deleteItem('${item.id}')"
+                title="Eliminar"
+              >
+                🗑️
+              </button>
+
+            </div>
+
             <button class="flip-btn">↻</button>
 
           </div>

@@ -504,3 +504,73 @@ tr.status-vendido {
   border: 1px solid #22c55e;
   box-shadow: 0 0 10px rgba(34, 197, 94, 0.45);
 }
+
+/* ==============================
+   CARD BACK ACTION BUTTONS
+============================== */
+
+.card-back-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.card-action-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 16px;
+
+  background: rgba(15, 23, 42, 0.8);
+  color: #e2e8f0;
+
+  transition: all 0.2s ease;
+}
+
+.card-action-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(30, 41, 59, 1);
+}
+
+.card-action-btn.edit:hover {
+  color: #60a5fa;
+  box-shadow: 0 0 10px rgba(96, 165, 250, 0.35);
+}
+
+.card-action-btn.delete:hover {
+  color: #f87171;
+  box-shadow: 0 0 10px rgba(248, 113, 113, 0.35);
+}
+
+/* ==============================
+   HIDE CARD ACTION BUTTONS UNTIL HOVER
+============================== */
+
+.card-back-actions {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: all 0.50s ease;
+}
+
+/* Show buttons when hovering over the card */
+.flip-card:hover .card-back-actions {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Also show buttons when the card is flipped */
+.flip-card.flipped .card-back-actions {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
