@@ -21,10 +21,10 @@ export function extractTag(text, tag) {
  * @returns {number}
  */
 export function parsePrice(value) {
-    if (!value) return 0;
-    return parseFloat(
-        value.replace("€", "").replace(",", ".").trim()
-    ) || 0;
+  if (!value) return 0;
+  return parseFloat(
+    value.replace("€", "").replace(",", ".").trim()
+  ) || 0;
 }
 
 /**
@@ -32,7 +32,7 @@ export function parsePrice(value) {
  * Profit = Precio - Compra - Comisión
  */
 export function calculateProfit(price, compra, comision) {
-    return price - compra - comision;
+  return price - compra - comision;
 }
 
 
@@ -115,9 +115,9 @@ export function getDaysSince(dateString) {
   return diffDays;
 }
 
- // ==============================
- // DETECT PLATFORM
- // ==============================
+// ==============================
+// DETECT PLATFORM
+// ==============================
 
 export function detectPlatform(link) {
   if (!link) return null;
@@ -298,4 +298,71 @@ export function getStatusColor(status) {
 
 export function getStatusLabel(status) {
   return STATUS_CONFIG[status]?.label || status;
+}
+
+// ==============================
+// PROMPT METADATA VALIDATION
+// ==============================
+
+export function validateMasterPrompt(text) {
+  if (!text || typeof text !== "string") {
+    return {
+      isValid: false,
+      error: "No text provided."
+    };
+  }
+
+  // ==============================
+  // REQUIRED FIXED HEADERS
+  // ==============================
+
+  const requiredHeaders = [
+    "[PROMPT_ID: SALES_MANAGEMENT_MASTER_PROMPT]",
+    "[PROMPT_TYPE: PRODUCT_TEMPLATE]",
+    "[VALIDATION_TOKEN: 9F7K2M4Q8X]"
+  ];
+
+  for (const header of requiredHeaders) {
+    if (!text.includes(header)) {
+      return {
+        isValid: false,
+        error: `Missing required header: ${header}`
+      };
+    }
+  }
+
+  // ==============================
+  // VERSION HEADER (ANY NUMBER)
+  // ==============================
+
+  const versionMatch = text.match(
+    /^\[VERSION:\s*([0-9]+(?:\.[0-9]+)*)\s*\]$/mi
+  );
+
+  if (!versionMatch) {
+    return {
+      isValid: false,
+      error: "Missing or invalid VERSION header."
+    };
+  }
+
+  return {
+    isValid: true,
+    error: null
+  };
+}
+
+// ==============================
+// EXTRACT UPLOAD ID
+// ==============================
+export function extractUploadId(text) {
+  if (!text) return null;
+
+  const match = text.match(
+    /^\[UPLOAD_ID:\s*([A-Z0-9]+)\s*\]$/mi
+  );
+
+  if (!match) return null;
+
+  return match[1].trim();
 }

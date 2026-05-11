@@ -7,7 +7,7 @@ import { calculateProfitValue, calculateStats, formatDate, getDaysSince, detectP
 import {renderInventoryStats, renderTableUI, renderMobileCards, renderItemsCards, renderUserInfo} from "./items.ui.js";
 import { setupFilters } from "./items.events.js";
 import { createCard } from "./ui.components.js";
-import { parseItemFile } from "./items.logic.js";
+import { parseItemFile, validateMasterPrompt, extractUploadId } from "./items.logic.js";
 import { supabase } from "./supabase.js";
 import { importFromFolder } from "./items.import.js";
 import { initAuthEvents, initLogoutEvent, initUserMenu, initActionsMenu} from "./items.events.js";
@@ -353,6 +353,49 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
+    // ==============================
+    // EXTRACT UPLOAD ID
+    // ==============================
+
+    const uploadId = extractUploadId(text);
+
+    console.log("UPLOAD_ID:", uploadId);
+
+    // ==============================
+    // VALIDATE MASTER PROMPT
+    // ==============================
+
+    const validation = validateMasterPrompt(text);
+
+    if (!validation.isValid) {
+      alert(validation.error);
+      return;
+    }
+
+    // ==============================
+    // CHECK DUPLICATE UPLOAD ID
+    // ==============================
+
+    if (uploadId) {
+      const { data: existingItem, error: duplicateError } = await supabase
+        .from("items")
+        .select("id")
+        .eq("user_id", currentUser.id)
+        .eq("upload_id", uploadId)
+        .maybeSingle();
+
+      if (duplicateError) {
+        console.error(duplicateError);
+        alert("Error checking duplicates");
+        return;
+      }
+
+      if (existingItem) {
+        alert("This product has already been imported.");
+        return;
+      }
+    }
+
     try {
       const platforms = parseDataText(text);
 
@@ -385,7 +428,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             status: "Disponible",
             date_published: today,
             user_id: currentUser.id,
-            item_number: nextItemNumber   // 🔥 NEW FIELD
+            item_number: nextItemNumber,
+            upload_id: uploadId
           }
         ])
         .select()
