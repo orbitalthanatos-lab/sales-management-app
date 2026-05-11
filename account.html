@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +20,7 @@
 
   <script type="module" src="./account.js"></script>
 </head>
+
 <body>
 
   <div class="account-page">
@@ -52,55 +54,34 @@
           <label for="storeNameInput" class="public-store-label">
             Store Name
           </label>
-          <input
-            type="text"
-            id="storeNameInput"
-            class="public-store-input"
-            placeholder="My Amazing Store"
-          >
+          <input type="text" id="storeNameInput" class="public-store-input" placeholder="My Amazing Store">
         </div>
 
         <div class="public-store-field">
           <label class="public-store-label">Public URL</label>
-          <div
-            id="publicStoreUrl"
-            class="public-store-url"
-          >
+          <div id="publicStoreUrl" class="public-store-url">
             Loading...
           </div>
         </div>
 
-        <div class="public-store-actions">
-          <button
-            type="button"
-            id="copyStoreLinkBtn"
-            class="nav-btn"
-          >
-            Copy Link
-          </button>
+        <button type="button" id="copyStoreLinkBtn" class="nav-btn">
+          Copy Link
+        </button>
 
-          <button
-            type="button"
-            id="openStoreBtn"
-            class="nav-btn"
-          >
-            Open Store
-          </button>
-        </div>
+        <button type="button" id="openStoreBtn" class="nav-btn">
+          Open Store
+        </button>
+
+        <button type="button" id="shareStoreBtn" class="nav-btn">
+          Share Store
+        </button>
 
         <label class="public-store-toggle">
-          <input
-            type="checkbox"
-            id="isPublicCheckbox"
-          >
+          <input type="checkbox" id="isPublicCheckbox">
           <span>Enable Public Store</span>
         </label>
 
-        <button
-          type="button"
-          id="saveStoreSettingsBtn"
-          class="nav-btn"
-        >
+        <button type="button" id="saveStoreSettingsBtn" class="nav-btn">
           Save Store Settings
         </button>
       </div>
@@ -113,4 +94,5 @@
   </div>
 
 </body>
+
 </html>

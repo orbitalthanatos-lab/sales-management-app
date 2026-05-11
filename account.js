@@ -66,6 +66,40 @@ document.addEventListener("DOMContentLoaded", async () => {
   setupPublicStoreEvents();
 
   // ==============================
+  // SHARE STORE
+  // ==============================
+
+  function setupPublicStoreEvents() {
+    const saveBtn =
+      document.getElementById("saveStoreSettingsBtn");
+
+    const copyBtn =
+      document.getElementById("copyStoreLinkBtn");
+
+    const openBtn =
+      document.getElementById("openStoreBtn");
+
+    const shareBtn =
+      document.getElementById("shareStoreBtn");
+
+    if (saveBtn) {
+      saveBtn.addEventListener("click", savePublicStoreSettings);
+    }
+
+    if (copyBtn) {
+      copyBtn.addEventListener("click", copyPublicStoreLink);
+    }
+
+    if (openBtn) {
+      openBtn.addEventListener("click", openPublicStore);
+    }
+
+    if (shareBtn) {
+      shareBtn.addEventListener("click", sharePublicStore);
+    }
+  }
+
+  // ==============================
   // BACK BUTTON
   // ==============================
 
@@ -160,6 +194,39 @@ async function copyPublicStoreLink() {
 function openPublicStore() {
   const url = getPublicStoreUrl();
   window.open(url, "_blank");
+}
+
+// ==============================
+// SHARE STORE
+// ==============================
+
+async function sharePublicStore() {
+  const url = getPublicStoreUrl();
+
+  const storeName =
+    currentProfile?.store_name ||
+    "My Store";
+
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: storeName,
+        text: `Check out my public store: ${storeName}`,
+        url
+      });
+      return;
+    } catch (error) {
+      // User cancelled the share dialog
+      if (error.name === "AbortError") {
+        return;
+      }
+
+      console.error("Error sharing store:", error);
+    }
+  }
+
+  // Fallback: copy the link
+  await copyPublicStoreLink();
 }
 
 // ==============================
