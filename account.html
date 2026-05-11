@@ -45,6 +45,66 @@
         </div>
       </div>
 
+      <div class="public-store-section">
+        <h2 class="public-store-title">Public Storefront</h2>
+
+        <div class="public-store-field">
+          <label for="storeNameInput" class="public-store-label">
+            Store Name
+          </label>
+          <input
+            type="text"
+            id="storeNameInput"
+            class="public-store-input"
+            placeholder="My Amazing Store"
+          >
+        </div>
+
+        <div class="public-store-field">
+          <label class="public-store-label">Public URL</label>
+          <div
+            id="publicStoreUrl"
+            class="public-store-url"
+          >
+            Loading...
+          </div>
+        </div>
+
+        <div class="public-store-actions">
+          <button
+            type="button"
+            id="copyStoreLinkBtn"
+            class="nav-btn"
+          >
+            Copy Link
+          </button>
+
+          <button
+            type="button"
+            id="openStoreBtn"
+            class="nav-btn"
+          >
+            Open Store
+          </button>
+        </div>
+
+        <label class="public-store-toggle">
+          <input
+            type="checkbox"
+            id="isPublicCheckbox"
+          >
+          <span>Enable Public Store</span>
+        </label>
+
+        <button
+          type="button"
+          id="saveStoreSettingsBtn"
+          class="nav-btn"
+        >
+          Save Store Settings
+        </button>
+      </div>
+
       <button id="backBtn" class="nav-btn">
         ← Back to Inventory
       </button>

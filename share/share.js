@@ -22,6 +22,27 @@ document.addEventListener("DOMContentLoaded", initSharePage);
 ============================== */
 
 async function initSharePage() {
+    const slug = getSlugFromUrl();
+
+    if (!slug) {
+        renderEmptyStore("Store not found", "No public store was specified.");
+        return;
+    }
+
+    const profile = await getPublicProfile(slug);
+
+    if (!profile) {
+        renderEmptyStore(
+            "Store not available",
+            "This public storefront is currently unavailable."
+        );
+        return;
+    }
+
+    window.shareProfile = profile;
+
+    updateStoreHeader(profile);
+
     const items = await getAvailableItems();
 
     window.shareItems = items;
@@ -29,6 +50,48 @@ async function initSharePage() {
     renderItems(items);
 
     setupSearch();
+}
+
+/* ==============================
+    Store Header and Empty State
+============================== */
+
+function updateStoreHeader(profile) {
+    const titleElement = document.getElementById("storeTitle");
+    const subtitleElement = document.getElementById("storeSubtitle");
+
+    if (!titleElement || !subtitleElement) return;
+
+    const storeTitle =
+        profile.store_name ||
+        profile.public_slug ||
+        "Available Items";
+
+    titleElement.textContent = storeTitle;
+    subtitleElement.textContent =
+        "Browse all currently available items.";
+}
+
+/* ==============================
+    Render Empty Store State
+============================== */
+
+function renderEmptyStore(title, message) {
+    const titleElement = document.getElementById("storeTitle");
+    const subtitleElement = document.getElementById("storeSubtitle");
+    const grid = document.getElementById("itemsGrid");
+
+    if (titleElement) {
+        titleElement.textContent = title;
+    }
+
+    if (subtitleElement) {
+        subtitleElement.textContent = message;
+    }
+
+    if (grid) {
+        grid.innerHTML = "";
+    }
 }
 
 /* ==============================
