@@ -1,6 +1,25 @@
-import { supabase } from "../supabase.js";
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const SUPABASE_URL = "https://iobpblqsqrtfzwyiygbu.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlvYnBibHFzcXJ0Znp3eWl5Z2J1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MDYwODksImV4cCI6MjA5MjE4MjA4OX0.2bv2oZuF9gvB5IE7LSZ09fVeA7ZgzGWYF4pUO8QTn70";
+
+const supabase = createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY,
+    {
+        auth: {
+            persistSession: false,
+            autoRefreshToken: false,
+            detectSessionInUrl: false
+        }
+    }
+);
 
 document.addEventListener("DOMContentLoaded", initSharePage);
+
+/* ==============================
+    Share Page Logic
+============================== */
 
 async function initSharePage() {
     const items = await getAvailableItems();
@@ -11,6 +30,10 @@ async function initSharePage() {
 
     setupSearch();
 }
+
+/* ==============================
+    Search Functionality
+============================== */
 
 function setupSearch() {
     const searchInput = document.getElementById("searchInput");
@@ -42,7 +65,55 @@ function setupSearch() {
     });
 }
 
+/* ==============================
+    Data Fetching and Rendering
+============================== */
+
+function getSlugFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+
+    return params.get("slug");
+}
+
+/* ==============================
+    Fetch Public Profile and Items
+============================== */
+
+async function getPublicProfile(slug) {
+    const { data, error } = await supabase
+        .from("public_profiles")
+        .select("user_id, public_slug, is_public, store_name")
+        .eq("public_slug", slug)
+        .eq("is_public", true)
+        .single();
+
+    if (error) {
+        console.error("Error loading public profile:", error);
+        return null;
+    }
+
+    return data;
+}
+
+/* ==============================
+    Fetch Available Items
+============================== */
+
 async function getAvailableItems() {
+    const slug = getSlugFromUrl();
+
+    if (!slug) {
+        console.error("No public slug provided in URL.");
+        return [];
+    }
+
+    const profile = await getPublicProfile(slug);
+
+    if (!profile) {
+        console.error("Public profile not found or disabled.");
+        return [];
+    }
+
     const { data, error } = await supabase
         .from("items")
         .select(`
@@ -54,7 +125,7 @@ async function getAvailableItems() {
                 url
             )
         `)
-        .eq("status", "Disponible")
+        .eq("user_id", profile.user_id)
         .order("item_number", { ascending: false });
 
     if (error) {
@@ -62,8 +133,18 @@ async function getAvailableItems() {
         return [];
     }
 
-    return data || [];
+    return (data || []).filter(item => {
+        const status = String(item.status || "")
+            .trim()
+            .toLowerCase();
+
+        return status === "disponible";
+    });
 }
+
+/* ==============================
+    Render Items
+============================== */
 
 function renderItems(items) {
     const grid = document.getElementById("itemsGrid");
@@ -82,6 +163,10 @@ function renderItems(items) {
 
     grid.innerHTML = items.map(createItemCard).join("");
 }
+
+/* ==============================
+    Create Item Card
+============================== */
 
 function createItemCard(item) {
     const selectedPlatform =
@@ -125,6 +210,10 @@ function createItemCard(item) {
         </article>
     `;
 }
+
+/* ==============================
+    Image Handling
+============================== */
 
 function getImage(item) {
     if (Array.isArray(item.images) && item.images.length > 0) {
@@ -194,6 +283,10 @@ function createPlatformIcons(platforms) {
     `;
 }
 
+/* ==============================
+    Utility Functions Price Formatting
+============================== */
+
 function formatPrice(value) {
     const number = Number(value || 0);
 
@@ -202,6 +295,10 @@ function formatPrice(value) {
         currency: "EUR"
     }).format(number);
 }
+
+/* ==============================
+    Utility Function HTML Escaping
+============================== */
 
 function escapeHtml(text) {
     const div = document.createElement("div");
