@@ -230,28 +230,46 @@
   <!-- ==============================
       IMPORT MODAL
   ============================== -->
-
   <div id="importModal" class="modal hidden">
+    <div class="modal-content import-modal-content">
 
-    <div class="modal-content import-modal">
+      <!-- Header -->
+      <div class="import-modal-header">
+        <div class="import-modal-title-group">
+          <h2 class="import-modal-title">Import Item</h2>
+          <p class="import-modal-subtitle">
+            Paste your master prompt to create a new product.
+          </p>
+        </div>
 
-      <div class="modal-header">
-        <h2>📥 Import Item</h2>
-        <span id="closeImportModal" class="close">&times;</span>
+        <div id="closeImportModalContainer"></div>
       </div>
 
-      <textarea id="importText" rows="10" placeholder="Paste your data here..."></textarea>
-
-      <div class="modal-actions">
-        <button id="importBtn">Import</button>
-        <button id="importFolderTopBtn">Import Folder</button>
-        <button id="masterPromptTopBtn" class="btn-secondary">Copy Prompt</button>
+      <!-- Body -->
+      <div class="import-modal-body">
+        <textarea
+          id="importText"
+          class="import-modal-textarea"
+          rows="10"
+          placeholder="Paste your data here..."
+        ></textarea>
       </div>
 
-      <div id="importStatus" class="modal-status"></div>
+      <!-- Actions -->
+      <div class="import-modal-actions">
+        <button id="importBtn" class="btn btn-primary">Import</button>
+        <button id="importFolderTopBtn" class="btn btn-secondary">
+          Import Folder
+        </button>
+        <button id="masterPromptTopBtn" class="btn btn-secondary">
+          Copy Prompt
+        </button>
+      </div>
+
+      <!-- Status -->
+      <div id="importStatus" class="import-modal-status"></div>
 
     </div>
-
   </div>
 
   <input type="file" id="folderInput" webkitdirectory multiple hidden />
@@ -272,7 +290,7 @@
         </div>
 
         <div id="closeImportResultsModalContainer"></div>
-        
+
       </div>
 
       <!-- Body -->

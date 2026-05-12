@@ -40,24 +40,33 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ==============================
 
   const openImportBtn = document.getElementById("openImportModalBtn");
+  const mobileImportBtn = document.getElementById("mobileImportBtn");
   const importModal = document.getElementById("importModal");
   const closeImportModal = document.getElementById("closeImportModal");
 
-  // Open
-  openImportBtn?.addEventListener("click", () => {
+  // Reusable function to open the Import Modal
+  function openImportModal() {
     importModal.classList.remove("hidden");
     document.body.style.overflow = "hidden";
 
-    // 🔥 Auto focus textarea
+    // Auto focus textarea
     setTimeout(() => {
       document.getElementById("importText")?.focus();
     }, 100);
-  });
+  }
 
-  // Close (X)
-  closeImportModal?.addEventListener("click", () => {
-    importModal.classList.add("hidden");
-    document.body.style.overflow = "";
+  // Desktop Import button
+  openImportBtn?.addEventListener("click", openImportModal);
+
+  // Mobile Import button
+  mobileImportBtn?.addEventListener("click", openImportModal);
+
+  // Close (X) - works even though the button is rendered later
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("#closeImportModal")) {
+      importModal.classList.add("hidden");
+      document.body.style.overflow = "";
+    }
   });
 
   // Close clicking outside
@@ -391,7 +400,24 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
 
       if (existingItem) {
-        alert("This product has already been imported.");
+        const importResultsModal = document.getElementById("importResultsModal");
+        const importResultsText = document.getElementById("importResultsText");
+
+        // Try to extract a readable product title
+        const title =
+          extractValue(text, "TÍTULO") ||
+          extractValue(text, "TITLE") ||
+          "This product has already been imported.";
+
+        if (importResultsModal && importResultsText) {
+          importResultsText.value = `Duplicates (1):\n- ${title}`;
+          importResultsModal.classList.remove("hidden");
+          document.body.style.overflow = "hidden";
+        } else {
+          // Fallback if the modal is not available
+          alert(`This product has already been imported:\n${title}`);
+        }
+
         return;
       }
     }
@@ -1125,9 +1151,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       if (!files.length) return;
 
-      await importFromFolder(files);
-
-      await loadItems(); // refresh UI
+      try {
+        await importFromFolder(files);
+        await loadItems(); // refresh UI
+      } finally {
+        // Important: reset input so selecting the same folder again
+        // will trigger the change event.
+        folderInput.value = "";
+      }
     });
 
   }
@@ -1154,6 +1185,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   // RENDER MODAL CLOSE BUTTONS
   // ==============================
 
+  // Import Modal close button
+  const closeImportModalContainer = document.getElementById(
+    "closeImportModalContainer"
+  );
+
+  if (closeImportModalContainer) {
+    closeImportModalContainer.innerHTML = createModalCloseButton(
+      "closeImportModal",
+      "Close import modal"
+    );
+  }
+
+  // Import Results Modal close button
   const closeImportResultsModalContainer = document.getElementById(
     "closeImportResultsModalContainer"
   );
@@ -1170,11 +1214,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ==============================
 
   const importResultsModal = document.getElementById("importResultsModal");
-  const closeImportResultsModal = document.getElementById("closeImportResultsModal");
+
+  // Get the close button AFTER it has been rendered
+  const closeImportResultsModal = document.getElementById(
+    "closeImportResultsModal"
+  );
 
   // Close using X button
   closeImportResultsModal?.addEventListener("click", () => {
-    importResultsModal.classList.add("hidden");
+    importResultsModal?.classList.add("hidden");
     document.body.style.overflow = "";
   });
 

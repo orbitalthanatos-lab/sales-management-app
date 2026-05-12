@@ -200,3 +200,73 @@
   opacity: 1;
   visibility: visible;
 }
+
+/* ==============================
+   IMPORT TEXT ITEM MODAL
+============================== */
+
+.import-modal-content {
+  max-width: 900px;
+  width: 95%;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.import-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.import-modal-title-group {
+  flex: 1;
+}
+
+.import-modal-title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.import-modal-subtitle {
+  margin: 8px 0 0;
+  color: #94a3b8;
+  font-size: 0.875rem;
+}
+
+.import-modal-body {
+  padding: 24px 28px;
+}
+
+.import-modal-textarea {
+  width: 100%;
+  min-height: 420px;
+  padding: 20px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.45);
+  color: #f8fafc;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.7;
+  resize: vertical;
+  outline: none;
+}
+
+.import-modal-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 0 28px 20px;
+}
+
+.import-modal-status {
+  padding: 0 28px 28px;
+  color: #94a3b8;
+  font-size: 0.875rem;
+}
