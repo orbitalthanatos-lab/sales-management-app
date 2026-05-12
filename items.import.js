@@ -3,7 +3,7 @@
 // ==============================
 
 import { supabase } from "./supabase.js";
-import { parseItemFile } from "./items.logic.js";
+import { parseItemFile, extractUploadId } from "./items.logic.js";
 import { currentUser } from "./script.js";
 
 // ==============================
@@ -37,6 +37,10 @@ export async function importFromFolder(files) {
         const total = folderNames.length;
         let current = 0;
 
+        // Import counters
+        let importedCount = 0;
+        let duplicateCount = 0;
+
         for (const folderName of folderNames) {
             current++;
 
@@ -56,6 +60,29 @@ export async function importFromFolder(files) {
 
             const text = await readFileAsText(txtFile);
 
+            // Extract upload_id from the master prompt text
+            const uploadId = extractUploadId(text);
+
+            // Check if this upload_id already exists for the current user
+            if (uploadId) {
+                const { data: existingItem, error: duplicateError } = await supabase
+                    .from("items")
+                    .select("id")
+                    .eq("user_id", currentUser.id)
+                    .eq("upload_id", uploadId)
+                    .maybeSingle();
+
+                if (duplicateError) {
+                    throw duplicateError;
+                }
+
+                if (existingItem) {
+                    duplicateCount++;
+                    console.log(`⏭️ Duplicate skipped: ${folderName}`);
+                    continue;
+                }
+            }
+
             // 🔥 2. PARSE TXT
             const platforms = parseDataText(text);
 
@@ -73,13 +100,25 @@ export async function importFromFolder(files) {
                 status: "Disponible",
                 date_published: today,
                 user_id: currentUser.id,
-                item_number: nextItemNumber
+                item_number: nextItemNumber,
+
+                // Save upload_id for duplicate detection
+                upload_id: uploadId || null
                 }
             ])
             .select()
             .single();
 
-            if (itemError) throw itemError;
+            if (itemError) {
+                // 23505 = unique constraint violation (duplicate upload_id)
+                if (itemError.code === "23505") {
+                    duplicateCount++;
+                    console.log(`⏭️ Duplicate skipped: ${folderName}`);
+                    continue;
+                }
+
+                throw itemError;
+            }
 
             const itemId = itemData.id;
 
@@ -152,6 +191,7 @@ export async function importFromFolder(files) {
                     .eq("id", itemId);
             }
 
+            importedCount++;
             console.log(`✅ Imported ${folderName}`);
         }
 
@@ -159,7 +199,24 @@ export async function importFromFolder(files) {
             statusEl.innerText = "Import completed ✅";
         }
 
-        // alert("Bulk import completed 🚀");
+        // Build summary message
+        let message = "";
+
+        if (importedCount > 0) {
+            message += `${importedCount} item${importedCount !== 1 ? "s" : ""} imported successfully.`;
+        }
+
+        if (duplicateCount > 0) {
+            if (message) message += "\n";
+            message += `${duplicateCount} duplicate${duplicateCount !== 1 ? "s" : ""} skipped.`;
+        }
+
+        if (!message) {
+            message = "No items were imported.";
+        }
+
+        alert(message);
+
         document.dispatchEvent(new CustomEvent("import:end"));
 
     } catch (err) {
