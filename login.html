@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Login</title>
 
@@ -13,98 +14,96 @@
 
 </head>
 
-  <body>
+<body>
 
-    <div class="login-page">
-      <div class="login-layout">
+  <div class="login-page">
+    <div class="login-layout">
 
-        <!-- LEFT SHOWCASE PANEL -->
-        <div class="login-showcase">
-          <div class="login-showcase-overlay"></div>
+      <!-- LEFT SHOWCASE PANEL -->
+      <div class="login-showcase">
+        <div class="login-showcase-overlay"></div>
 
-          <div class="login-showcase-content">
-            <div class="login-badge">
-              Sales Management App
-            </div>
+        <div class="login-showcase-content">
+          <div class="login-badge">
+            Sales Management App
+          </div>
 
-            <h1 id="showcaseTitle" class="login-showcase-title">
-              Manage Your Business Beautifully Organized
-            </h1>
+          <h1 id="showcaseTitle" class="login-showcase-title">
+            Manage Your Business Beautifully Organized
+          </h1>
 
-            <p id="showcaseDescription" class="login-showcase-description">
-              Track products, inventory, sales, and public storefronts
-              from one powerful cloud-based dashboard.
-            </p>
+          <p id="showcaseDescription" class="login-showcase-description">
+            Track products, inventory, sales, and public storefronts
+            from one powerful cloud-based dashboard.
+          </p>
 
-            <div class="login-showcase-dots">
-              <span class="login-dot active"></span>
-              <span class="login-dot"></span>
-              <span class="login-dot"></span>
-              <span class="login-dot"></span>
-              <span class="login-dot"></span>
-            </div>
+          <div class="login-showcase-dots">
+            <span class="login-dot active"></span>
+            <span class="login-dot"></span>
+            <span class="login-dot"></span>
+            <span class="login-dot"></span>
+            <span class="login-dot"></span>
           </div>
         </div>
-
-        <!-- RIGHT LOGIN PANEL -->
-        <div class="login-card">
-          <div class="login-brand">
-            <div class="login-logo">📦</div>
-            <p class="login-app-name">Sales Management App</p>
-          </div>
-
-          <h2>Welcome Back</h2>
-
-          <p class="login-subtitle">
-            Sign in to continue managing your products,
-            inventory, and sales.
-          </p>
-
-          <input id="email" type="email" placeholder="Email Address">
-          <div class="password-field">
-            <input
-              id="password"
-              type="password"
-              placeholder="Password"
-            >
-
-            <button
-              type="button"
-              id="togglePasswordBtn"
-              class="toggle-password-btn"
-              aria-label="Show password"
-            >
-              👁
-            </button>
-          </div>
-
-          <button id="loginBtn" class="btn-login">
-            Log In
-          </button>
-
-          <div class="divider">
-            <span>OR</span>
-          </div>
-
-          <button id="googleBtn" class="btn-google">
-            Continue with Google
-          </button>
-
-          <p class="signup-text">
-            No account?
-            <span id="signupBtn" class="signup-link">
-              Create your free account
-            </span>
-          </p>
-
-          <p class="security-text">
-            🔒 Secure login powered by Supabase
-          </p>
-        </div>
-
       </div>
-    </div>
 
-  </body>
+      <!-- RIGHT LOGIN PANEL -->
+      <div class="login-card">
+        <div class="login-brand">
+          <div class="login-logo">📦</div>
+          <p class="login-app-name">Sales Management App</p>
+        </div>
+
+        <h2>Welcome Back</h2>
+
+        <p class="login-subtitle">
+          Sign in to continue managing your products,
+          inventory, and sales.
+        </p>
+
+        <input id="email" type="email" placeholder="Email Address">
+        
+        <div class="password-field">
+          <input id="password" type="password" placeholder="Password">
+
+          <button type="button" id="togglePasswordBtn" class="toggle-password-btn" aria-label="Show password">
+            👁
+          </button>
+        </div>
+
+        <div class="forgot-password-wrapper">
+          <span id="forgotPasswordBtn" class="forgot-password-link">
+            Forgot your password?
+          </span>
+        </div>
+
+        <button id="loginBtn" class="btn-login">
+          Log In
+        </button>
+
+        <div class="divider">
+          <span>OR</span>
+        </div>
+
+        <button id="googleBtn" class="btn-google">
+          Continue with Google
+        </button>
+
+        <p class="signup-text">
+          No account?
+          <span id="signupBtn" class="signup-link">
+            Create your free account
+          </span>
+        </p>
+
+        <p class="security-text">
+          🔒 Secure login powered by Supabase
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+</body>
 
 </html>
