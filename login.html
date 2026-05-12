@@ -61,7 +61,22 @@
           </p>
 
           <input id="email" type="email" placeholder="Email Address">
-          <input id="password" type="password" placeholder="Password">
+          <div class="password-field">
+            <input
+              id="password"
+              type="password"
+              placeholder="Password"
+            >
+
+            <button
+              type="button"
+              id="togglePasswordBtn"
+              class="toggle-password-btn"
+              aria-label="Show password"
+            >
+              👁
+            </button>
+          </div>
 
           <button id="loginBtn" class="btn-login">
             Log In

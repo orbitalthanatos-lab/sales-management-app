@@ -166,3 +166,33 @@ function startShowcaseCarousel() {
 }
 
 startShowcaseCarousel();
+
+// ==============================
+// SHOW / HIDE PASSWORD
+// ==============================
+
+const passwordInput =
+  document.getElementById("password");
+
+const togglePasswordBtn =
+  document.getElementById("togglePasswordBtn");
+
+if (passwordInput && togglePasswordBtn) {
+  togglePasswordBtn.addEventListener("click", () => {
+    const isHidden =
+      passwordInput.type === "password";
+
+    passwordInput.type =
+      isHidden ? "text" : "password";
+
+    togglePasswordBtn.textContent =
+      isHidden ? "🙈" : "👁";
+
+    togglePasswordBtn.setAttribute(
+      "aria-label",
+      isHidden
+        ? "Hide password"
+        : "Show password"
+    );
+  });
+}
