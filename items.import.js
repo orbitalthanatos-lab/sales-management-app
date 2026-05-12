@@ -41,6 +41,11 @@ export async function importFromFolder(files) {
         let importedCount = 0;
         let duplicateCount = 0;
 
+        // Detailed import log
+        const importedItems = [];
+        const duplicateItems = [];
+        const errorItems = [];
+
         for (const folderName of folderNames) {
             current++;
 
@@ -78,7 +83,17 @@ export async function importFromFolder(files) {
 
                 if (existingItem) {
                     duplicateCount++;
-                    console.log(`⏭️ Duplicate skipped: ${folderName}`);
+
+                    // Try to extract a readable product title
+                    const title =
+                        extractValue(text, "TÍTULO") ||
+                        extractValue(text, "TITLE") ||
+                        folderName;
+
+                    // Save to detailed import log
+                    duplicateItems.push(title);
+
+                    console.log(`⏭️ Duplicate skipped: ${title}`);
                     continue;
                 }
             }
@@ -113,9 +128,24 @@ export async function importFromFolder(files) {
                 // 23505 = unique constraint violation (duplicate upload_id)
                 if (itemError.code === "23505") {
                     duplicateCount++;
-                    console.log(`⏭️ Duplicate skipped: ${folderName}`);
+
+                    const duplicateTitle =
+                        extractValue(text, "TÍTULO") ||
+                        extractValue(text, "TITLE") ||
+                        folderName;
+
+                    duplicateItems.push(duplicateTitle);
+
+                    console.log(`⏭️ Duplicate skipped: ${duplicateTitle}`);
                     continue;
                 }
+
+                const errorTitle =
+                    extractValue(text, "TÍTULO") ||
+                    extractValue(text, "TITLE") ||
+                    folderName;
+
+                errorItems.push(errorTitle);
 
                 throw itemError;
             }
@@ -192,30 +222,62 @@ export async function importFromFolder(files) {
             }
 
             importedCount++;
-            console.log(`✅ Imported ${folderName}`);
+
+            // Try to extract a readable product title
+            const importedTitle =
+                extractValue(text, "TÍTULO") ||
+                extractValue(text, "TITLE") ||
+                folderName;
+
+            // Save to detailed import log
+            importedItems.push(importedTitle);
+
+            console.log(`✅ Imported ${importedTitle}`);
         }
 
         if (statusEl) {
             statusEl.innerText = "Import completed ✅";
         }
 
-        // Build summary message
+        // Build detailed import log
         let message = "";
 
-        if (importedCount > 0) {
-            message += `${importedCount} item${importedCount !== 1 ? "s" : ""} imported successfully.`;
+        // Imported items
+        if (importedItems.length > 0) {
+            message += `Imported (${importedItems.length}):\n`;
+            message += importedItems.map(title => `- ${title}`).join("\n");
         }
 
-        if (duplicateCount > 0) {
-            if (message) message += "\n";
-            message += `${duplicateCount} duplicate${duplicateCount !== 1 ? "s" : ""} skipped.`;
+        // Duplicate items
+        if (duplicateItems.length > 0) {
+            if (message) message += "\n\n";
+            message += `Duplicates (${duplicateItems.length}):\n`;
+            message += duplicateItems.map(title => `- ${title}`).join("\n");
         }
 
+        // Error items
+        if (errorItems.length > 0) {
+            if (message) message += "\n\n";
+            message += `Errors (${errorItems.length}):\n`;
+            message += errorItems.map(title => `- ${title}`).join("\n");
+        }
+
+        // Fallback message
         if (!message) {
             message = "No items were imported.";
         }
 
-        alert(message);
+        const modal = document.getElementById("importResultsModal");
+        const textarea = document.getElementById("importResultsText");
+
+        if (modal && textarea) {
+            textarea.value = message;
+            modal.classList.remove("hidden");
+            document.body.style.overflow = "hidden";
+        } else {
+            // Fallback if modal is missing
+            alert(message);
+        }
 
         document.dispatchEvent(new CustomEvent("import:end"));
 

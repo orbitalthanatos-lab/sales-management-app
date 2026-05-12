@@ -256,6 +256,48 @@
 
   <input type="file" id="folderInput" webkitdirectory multiple hidden />
 
+  <!-- ==============================
+      IMPORT RESULTS MODAL
+  ============================== -->
+  <div id="importResultsModal" class="modal hidden">
+    <div class="modal-content import-results-modal-content">
+
+      <!-- Header -->
+      <div class="import-results-header">
+        <div class="import-results-title-group">
+          <h2 class="import-results-title">Import Results</h2>
+          <p class="import-results-subtitle">
+            Summary of imported, duplicate, and failed items.
+          </p>
+        </div>
+
+        <div id="closeImportResultsModalContainer"></div>
+        
+      </div>
+
+      <!-- Body -->
+      <div class="import-results-body">
+        <textarea
+          id="importResultsText"
+          class="import-results-text"
+          readonly
+        ></textarea>
+      </div>
+
+      <!-- Footer -->
+      <div class="import-results-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          onclick="document.getElementById('closeImportResultsModal').click()"
+        >
+          Close
+        </button>
+      </div>
+
+    </div>
+  </div>
+
 </body>
 
 </html>

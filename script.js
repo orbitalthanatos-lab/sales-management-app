@@ -6,7 +6,7 @@
 import { calculateProfitValue, calculateStats, formatDate, getDaysSince, detectPlatform } from "./items.logic.js";
 import {renderInventoryStats, renderTableUI, renderMobileCards, renderItemsCards, renderUserInfo} from "./items.ui.js";
 import { setupFilters } from "./items.events.js";
-import { createCard } from "./ui.components.js";
+import { createCard, createModalCloseButton } from "./ui.components.js";
 import { parseItemFile, validateMasterPrompt, extractUploadId } from "./items.logic.js";
 import { supabase } from "./supabase.js";
 import { importFromFolder } from "./items.import.js";
@@ -1147,6 +1147,54 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (err) {
       console.error(err);
       alert("Failed to copy prompt");
+    }
+  });
+
+  // ==============================
+  // RENDER MODAL CLOSE BUTTONS
+  // ==============================
+
+  const closeImportResultsModalContainer = document.getElementById(
+    "closeImportResultsModalContainer"
+  );
+
+  if (closeImportResultsModalContainer) {
+    closeImportResultsModalContainer.innerHTML = createModalCloseButton(
+      "closeImportResultsModal",
+      "Close import results"
+    );
+  }
+
+  // ==============================
+  // IMPORT RESULTS MODAL EVENTS
+  // ==============================
+
+  const importResultsModal = document.getElementById("importResultsModal");
+  const closeImportResultsModal = document.getElementById("closeImportResultsModal");
+
+  // Close using X button
+  closeImportResultsModal?.addEventListener("click", () => {
+    importResultsModal.classList.add("hidden");
+    document.body.style.overflow = "";
+  });
+
+  // Close by clicking outside
+  importResultsModal?.addEventListener("click", (e) => {
+    if (e.target === importResultsModal) {
+      importResultsModal.classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+  });
+
+  // Close with Escape key
+  document.addEventListener("keydown", (e) => {
+    if (!importResultsModal || importResultsModal.classList.contains("hidden")) {
+      return;
+    }
+
+    if (e.key === "Escape") {
+      importResultsModal.classList.add("hidden");
+      document.body.style.overflow = "";
     }
   });
 
