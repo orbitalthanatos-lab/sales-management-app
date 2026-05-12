@@ -67,3 +67,102 @@ document.getElementById("googleBtn").addEventListener("click", async () => {
     }
   });
 });
+
+// ==============================
+// LOGIN SHOWCASE CAROUSEL
+// ==============================
+
+const showcaseSlides = [
+  {
+    title: "Manage Your Business Beautifully Organized",
+    description:
+      "Track products, inventory, sales, and public storefronts from one powerful cloud-based dashboard."
+  },
+  {
+    title: "Control All Your Products in One Place",
+    description:
+      "Organize categories, prices, stock, and images with an intuitive interface."
+  },
+  {
+    title: "Upload Images and Extract Data Automatically",
+    description:
+      "Use OCR and AI prompts to process invoices, receipts, and product information."
+  },
+  {
+    title: "Access Your Data Anywhere",
+    description:
+      "Secure cloud synchronization powered by Supabase."
+  },
+  {
+    title: "Share Your Public Storefront",
+    description:
+      "Publish products online and share your store link with customers instantly."
+  }
+];
+
+const showcaseTitle =
+  document.getElementById("showcaseTitle");
+
+const showcaseDescription =
+  document.getElementById("showcaseDescription");
+
+const showcaseDots =
+  document.querySelectorAll(".login-dot");
+
+let currentSlideIndex = 0;
+let showcaseIntervalId = null;
+
+function renderShowcaseSlide(index) {
+  if (!showcaseTitle || !showcaseDescription) return;
+
+  const slide = showcaseSlides[index];
+
+  showcaseTitle.textContent = slide.title;
+  showcaseDescription.textContent = slide.description;
+
+  showcaseDots.forEach((dot, dotIndex) => {
+    dot.classList.toggle(
+      "active",
+      dotIndex === index
+    );
+  });
+}
+
+function goToNextSlide() {
+  currentSlideIndex =
+    (currentSlideIndex + 1) %
+    showcaseSlides.length;
+
+  renderShowcaseSlide(currentSlideIndex);
+}
+
+function restartShowcaseCarousel() {
+  if (showcaseIntervalId) {
+    clearInterval(showcaseIntervalId);
+  }
+
+  showcaseIntervalId = setInterval(
+    goToNextSlide,
+    5000
+  );
+}
+
+function setupShowcaseDots() {
+  showcaseDots.forEach((dot, dotIndex) => {
+    dot.addEventListener("click", () => {
+      currentSlideIndex = dotIndex;
+      renderShowcaseSlide(currentSlideIndex);
+      restartShowcaseCarousel();
+    });
+  });
+}
+
+function startShowcaseCarousel() {
+  if (!showcaseTitle || !showcaseDescription) return;
+
+  renderShowcaseSlide(currentSlideIndex);
+  setupShowcaseDots();
+  restartShowcaseCarousel();
+}
+
+startShowcaseCarousel();

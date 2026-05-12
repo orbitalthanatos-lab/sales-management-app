@@ -110,6 +110,16 @@ body {
   height: 4px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.login-dot:hover {
+  background: rgba(255, 255, 255, 0.65);
+  transform: scale(1.1);
 }
 
 .login-dot.active {
