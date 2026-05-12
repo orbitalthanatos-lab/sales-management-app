@@ -28,6 +28,7 @@
 @import url("./pages/dashboard.css");
 @import url("./pages/edit.css");
 @import url("./pages/inventory.css");
+@import url("./pages/login.css");
 
 /* Utilities */
 @import url("./utilities/utilities.css");

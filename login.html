@@ -1,95 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
   <title>Login</title>
+
   <link rel="stylesheet" href="../css/main.css">
 
-  <style>
-    body {
-      background: #0f172a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      font-family: sans-serif;
-    }
-
-    .login-card {
-      background: #1e293b;
-      padding: 30px;
-      border-radius: 12px;
-      width: 100%;
-      max-width: 400px;
-      color: white;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    }
-
-    .login-card h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .login-card input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 12px;
-      border-radius: 6px;
-      border: none;
-      background: #0f172a;
-      color: white;
-    }
-
-    .login-card button {
-      width: 100%;
-      padding: 12px;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    .btn-login {
-      background: #ef4444;
-      color: white;
-    }
-
-    .btn-google {
-      background: #111827;
-      color: white;
-    }
-
-    .divider {
-      text-align: center;
-      margin: 15px 0;
-      color: #94a3b8;
-    }
-  </style>
-
   <script type="module" src="./login.js"></script>
+
 </head>
 
-<body>
+  <body>
 
-  <div class="login-card">
-    <h2>Log In</h2>
+    <div class="login-page">
+      <div class="login-layout">
 
-    <input id="email" type="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Password">
+        <!-- LEFT SHOWCASE PANEL -->
+        <div class="login-showcase">
+          <div class="login-showcase-overlay"></div>
 
-    <button id="loginBtn" class="btn-login">Log In</button>
+          <div class="login-showcase-content">
+            <div class="login-badge">
+              Sales Management App
+            </div>
 
-    <div class="divider">OR</div>
+            <h1 class="login-showcase-title">
+              Manage Your Business
+              Beautifully Organized
+            </h1>
 
-    <button id="googleBtn" class="btn-google">
-      Log in with Google
-    </button>
+            <p class="login-showcase-description">
+              Track products, inventory, sales, and public storefronts
+              from one powerful cloud-based dashboard.
+            </p>
 
-    <p style="margin-top:15px; font-size:14px;">
-      No account? <span id="signupBtn" style="cursor:pointer; color:#3b82f6;">Sign up</span>
-    </p>
-  </div>
+            <div class="login-showcase-dots">
+              <span class="login-dot active"></span>
+              <span class="login-dot"></span>
+              <span class="login-dot"></span>
+            </div>
+          </div>
+        </div>
 
-</body>
+        <!-- RIGHT LOGIN PANEL -->
+        <div class="login-card">
+          <div class="login-brand">
+            <div class="login-logo">📦</div>
+            <p class="login-app-name">Sales Management App</p>
+          </div>
+
+          <h2>Welcome Back</h2>
+
+          <p class="login-subtitle">
+            Sign in to continue managing your products,
+            inventory, and sales.
+          </p>
+
+          <input id="email" type="email" placeholder="Email Address">
+          <input id="password" type="password" placeholder="Password">
+
+          <button id="loginBtn" class="btn-login">
+            Log In
+          </button>
+
+          <div class="divider">
+            <span>OR</span>
+          </div>
+
+          <button id="googleBtn" class="btn-google">
+            Continue with Google
+          </button>
+
+          <p class="signup-text">
+            No account?
+            <span id="signupBtn" class="signup-link">
+              Create your free account
+            </span>
+          </p>
+
+          <p class="security-text">
+            🔒 Secure login powered by Supabase
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </body>
+
 </html>
