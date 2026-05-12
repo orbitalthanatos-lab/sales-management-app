@@ -196,3 +196,46 @@ if (passwordInput && togglePasswordBtn) {
     );
   });
 }
+
+// ==============================
+// FORGOT PASSWORD
+// ==============================
+
+const forgotPasswordBtn =
+  document.getElementById("forgotPasswordBtn");
+
+if (forgotPasswordBtn) {
+  forgotPasswordBtn.addEventListener("click", async () => {
+    const email =
+      document.getElementById("email").value.trim();
+
+    if (!email) {
+      showNotification(
+        "Please enter your email address first.",
+        "warning"
+      );
+      return;
+    }
+
+    const { error } =
+      await supabase.auth.resetPasswordForEmail(
+        email,
+        {
+          redirectTo:
+            window.location.origin +
+            "/pages/reset-password.html"
+        }
+      );
+
+    if (error) {
+      showNotification(error.message, "error");
+      return;
+    }
+
+    showNotification(
+      "Password reset email sent successfully.",
+      "success",
+      5000
+    );
+  });
+}

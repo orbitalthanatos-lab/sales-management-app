@@ -377,3 +377,21 @@ body {
     color: #ffffff;
     transform: translateY(-50%);
 }
+
+.forgot-password-wrapper {
+  margin-top: -4px;
+  margin-bottom: 8px;
+  text-align: right;
+}
+
+.forgot-password-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: #60a5fa;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.forgot-password-link:hover {
+  color: #93c5fd;
+}
