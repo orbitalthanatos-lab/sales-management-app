@@ -5,6 +5,7 @@
 import { supabase } from "./supabase.js";
 import { parseItemFile, extractUploadId } from "./items.logic.js";
 import { currentUser } from "./script.js";
+import { showNotification } from "./notification.ui.js";
 
 // ==============================
 // MAIN IMPORT FUNCTION
@@ -276,14 +277,14 @@ export async function importFromFolder(files) {
             document.body.style.overflow = "hidden";
         } else {
             // Fallback if modal is missing
-            alert(message);
+            showNotification(message, "info", 6000);
         }
 
         document.dispatchEvent(new CustomEvent("import:end"));
 
     } catch (err) {
         console.error(err);
-        alert("Error during bulk import");
+        showNotification("Error during bulk import.", "error");
         document.dispatchEvent(new CustomEvent("import:end"));
     }
 }

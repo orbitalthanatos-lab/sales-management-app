@@ -1,4 +1,5 @@
 import { supabase } from "./supabase.js";
+import { showNotification } from "./notification.ui.js";
 
 // ==============================
 // CHECK IF USER IS LOGGED IN
@@ -24,7 +25,7 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
   });
 
   if (error) {
-    alert(error.message);
+    showNotification(error.message, "error");
   } else {
     window.location.href = "index.html";
   }
@@ -44,9 +45,13 @@ document.getElementById("signupBtn").addEventListener("click", async () => {
   });
 
   if (error) {
-    alert(error.message);
+    showNotification(error.message, "error");
   } else {
-    alert("Check your email to confirm signup");
+    showNotification(
+      "Check your email to confirm signup.",
+      "success",
+      5000
+);
   }
 });
 

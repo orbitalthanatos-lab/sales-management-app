@@ -1,5 +1,6 @@
 import { supabase } from "./supabase.js";
 import { detectPlatform } from "./items.logic.js";
+import { showNotification } from "./notification.ui.js";
 
 let currentItem = null;
 let currentPlatform = "wallapop";
@@ -15,7 +16,7 @@ const params = new URLSearchParams(window.location.search);
 const itemId = params.get("id");
 
 if (!itemId) {
-    alert("No item ID provided");
+    showNotification("No item ID provided.", "warning");
     window.location.href = "index.html";
 }
 
@@ -113,7 +114,7 @@ async function loadItem() {
 
     } catch (err) {
         console.error(err);
-        alert("Error loading item");
+        showNotification("Error loading item.", "error");
     }
 }
 
@@ -225,12 +226,11 @@ window.saveItem = async () => {
         currentItem.date_sold = dateSold;
         currentItem.date_published = datePublished;
 
-        // alert("Saved all platforms ✅");
         window.location.href = "index.html";
 
     } catch (err) {
         console.error(err);
-        alert("Error saving");
+        showNotification("Error saving.", "error");
     }
 };
 
@@ -282,7 +282,7 @@ window.deleteImage = async (index) => {
 
     } catch (err) {
         console.error(err);
-        alert("Error deleting image");
+        showNotification("Error deleting image.", "error");
     }
 };
 
@@ -343,7 +343,7 @@ window.uploadImages = () => {
 
         } catch (err) {
             console.error(err);
-            alert("Upload failed");
+            showNotification("Upload failed.", "error");
         }
     };
 

@@ -11,6 +11,7 @@ import { parseItemFile, validateMasterPrompt, extractUploadId } from "./items.lo
 import { supabase } from "./supabase.js";
 import { importFromFolder } from "./items.import.js";
 import { initAuthEvents, initLogoutEvent, initUserMenu, initActionsMenu} from "./items.events.js";
+import { showNotification } from "./notification.ui.js";
 
 export let currentUser = null;
 
@@ -358,7 +359,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const text = document.getElementById("importText").value;
 
     if (!text.trim()) {
-      alert("Paste something first");
+      showNotification(validation.error, "error", 5000);
       return;
     }
 
@@ -377,7 +378,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const validation = validateMasterPrompt(text);
 
     if (!validation.isValid) {
-      alert(validation.error);
+      showNotification(validation.error, "error", 5000);
       return;
     }
 
@@ -395,7 +396,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       if (duplicateError) {
         console.error(duplicateError);
-        alert("Error checking duplicates");
+        showNotification("Error checking duplicates.", "error");
         return;
       }
 
@@ -415,7 +416,11 @@ document.addEventListener("DOMContentLoaded", async () => {
           document.body.style.overflow = "hidden";
         } else {
           // Fallback if the modal is not available
-          alert(`This product has already been imported:\n${title}`);
+          showNotification(
+            `This product has already been imported:\n${title}`,
+            "warning",
+            6000
+          );
         }
 
         return;
@@ -486,14 +491,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       // 4️⃣ Clear textarea
       document.getElementById("importText").value = "";
 
-      alert("Item imported 🚀");
+      showNotification("Item imported successfully.", "success");
 
       document.getElementById("importModal").classList.add("hidden");
       document.body.style.overflow = "";
 
     } catch (error) {
       console.error(error);
-      alert("Error importing item");
+      showNotification("Error importing item.", "error");
     }
   }
 
@@ -707,7 +712,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     } catch (error) {
       console.error("Error updating platform:", error);
-      alert("Error updating platform");
+      showNotification("Error updating platform.", "error");
     }
   };
 
@@ -747,7 +752,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     } catch (error) {
       console.error("Error updating status:", error);
-      alert("Error updating status");
+      showNotification("Error updating status.", "error");
     }
   };
 
@@ -887,7 +892,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     } catch (error) {
       console.error(error);
-      alert("Error updating sold platform");
+      showNotification("Error updating sold platform.", "error");
     }
   };
 
@@ -1026,7 +1031,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           .upload(filePath, file);
 
         if (error) {
-          alert(error.message);
+          showNotification(error.message, "error", 5000);
           return;
         }
 
@@ -1059,7 +1064,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     } catch (err) {
       console.error(err);
-      alert("Upload failed");
+      showNotification("Upload failed.", "error");
     }
   };
 
@@ -1094,11 +1099,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       // 4️⃣ Refresh UI
       await loadItems();
 
-      // alert("Item deleted ✅");
-
     } catch (err) {
       console.error(err);
-      alert("Error deleting item");
+      showNotification("Error deleting item.", "error");
     }
   };
 
@@ -1174,10 +1177,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       await navigator.clipboard.writeText(text);
 
-      alert("Prompt copied!");
+      showNotification("Prompt copied!", "success");
     } catch (err) {
       console.error(err);
-      alert("Failed to copy prompt");
+      showNotification("Failed to copy prompt.", "error");
     }
   });
 

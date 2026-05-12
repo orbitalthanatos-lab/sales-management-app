@@ -1,4 +1,5 @@
 import { supabase } from "./supabase.js";
+import { showNotification } from "./notification.ui.js";
 
 let currentUser = null;
 let currentProfile = null;
@@ -160,7 +161,7 @@ async function savePublicStoreSettings() {
 
   if (error) {
     console.error("Error saving store settings:", error);
-    alert("Error saving store settings.");
+    showNotification("Error saving store settings.", "error");
     return;
   }
 
@@ -168,7 +169,7 @@ async function savePublicStoreSettings() {
 
   renderPublicStoreSettings(currentProfile);
 
-  alert("Store settings saved successfully.");
+  showNotification("Store settings saved successfully.", "success");
 }
 
 // ==============================
@@ -180,10 +181,10 @@ async function copyPublicStoreLink() {
 
   try {
     await navigator.clipboard.writeText(url);
-    alert("Public store link copied to clipboard.");
+    showNotification("Public store link copied to clipboard.", "success");
   } catch (error) {
     console.error("Error copying link:", error);
-    alert("Unable to copy the link.");
+    showNotification("Unable to copy the link.", "error");
   }
 }
 
