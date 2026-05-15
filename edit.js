@@ -1,5 +1,5 @@
 import { supabase } from "./supabase.js";
-import { detectPlatform } from "./items.logic.js";
+import { detectPlatform, addReminderToPlatform } from "./items.logic.js";
 import { showNotification } from "./notification.ui.js";
 
 let currentItem = null;
@@ -95,14 +95,39 @@ async function loadItem() {
 
         currentItem.platforms = updatedPlatforms;
 
+        // Load all reminders for this item's platforms
+        const platformIds = currentItem.platforms.map(p => p.id);
+
+        const { data: remindersData, error: remindersError } = await supabase
+            .from("item_reminders")
+            .select("*")
+            .in("item_platform_id", platformIds);
+
+        if (remindersError) throw remindersError;
+
         currentItem.platforms.forEach(p => {
+            const platformReminders = (remindersData || [])
+                .filter(r => r.item_platform_id === p.id)
+                .map(r => ({
+                    id: r.id,
+                    customerName: r.customer_name || "",
+                    contactInfo: r.contact_info || "",
+                    productRequested: r.product_requested || "",
+                    notes: r.notes || "",
+                    dateRequested: r.date_requested || "",
+                    completed: r.completed || false,
+                    createdAt: r.created_at || ""
+                }));
+
             draft[p.platform] = {
+                id: p.id,
                 title: p.title || "",
                 description: p.description || "",
                 price: p.price || 0,
                 fees: p.fees || 0,
                 buy: p.buy || 0,
-                url: p.url || ""
+                url: p.url || "",
+                reminders: platformReminders
             };
         });
 
@@ -111,6 +136,7 @@ async function loadItem() {
         setupTabs();
         bindInputs();
         applySmartLogic();
+        setupReminderEvents();
 
     } catch (err) {
         console.error(err);
@@ -145,6 +171,8 @@ function loadPlatformData() {
 
     document.getElementById("url").value =
         draft[currentPlatform]?.url || "";
+
+    renderReminders();
 }
 
 // ==============================
@@ -207,6 +235,7 @@ window.saveItem = async () => {
         for (const platform of Object.keys(draft)) {
             const data = draft[platform];
 
+            // 1. Update platform data
             await supabase
                 .from("item_platforms")
                 .update({
@@ -219,6 +248,33 @@ window.saveItem = async () => {
                 })
                 .eq("item_id", currentItem.id)
                 .eq("platform", platform);
+
+            // 2. Delete existing reminders for this platform
+            if (data.id) {
+                await supabase
+                    .from("item_reminders")
+                    .delete()
+                    .eq("item_platform_id", data.id);
+
+                // 3. Insert current reminders
+                const reminders = data.reminders || [];
+
+                if (reminders.length > 0) {
+                    const rows = reminders.map(reminder => ({
+                        item_platform_id: data.id,
+                        customer_name: reminder.customerName || "",
+                        contact_info: reminder.contactInfo || "",
+                        product_requested: reminder.productRequested || "",
+                        notes: reminder.notes || "",
+                        date_requested: reminder.dateRequested || null,
+                        completed: reminder.completed || false
+                    }));
+
+                    await supabase
+                        .from("item_reminders")
+                        .insert(rows);
+                }
+            }
         }
 
         // ✅ ONLY use variables that exist here
@@ -509,6 +565,135 @@ function applySmartLogic() {
         }
     }
 
+}
+
+// ==============================
+// REMINDERS
+// ==============================
+
+function renderReminders() {
+    const container = document.getElementById("remindersList");
+
+    if (!container) return;
+
+    const reminders =
+        draft[currentPlatform]?.reminders || [];
+
+    if (reminders.length === 0) {
+        container.innerHTML =
+            '<p class="empty-reminders">No reminders yet.</p>';
+        return;
+    }
+
+    container.innerHTML = reminders
+        .map((reminder, index) => `
+            <div class="reminder-card">
+
+                <div class="floating-group">
+                    <input
+                        type="text"
+                        value="${reminder.customerName || ""}"
+                        onchange="window.updateReminderField(${index}, 'customerName', this.value)"
+                        placeholder=" ">
+                    <label>Customer Name</label>
+                </div>
+
+                <div class="floating-group">
+                    <input
+                        type="text"
+                        value="${reminder.contactInfo || ""}"
+                        onchange="window.updateReminderField(${index}, 'contactInfo', this.value)"
+                        placeholder=" ">
+                    <label>Contact Information</label>
+                </div>
+
+                <div class="floating-group">
+                    <input
+                        type="text"
+                        value="${reminder.productRequested || ""}"
+                        onchange="window.updateReminderField(${index}, 'productRequested', this.value)"
+                        placeholder=" ">
+                    <label>Product Requested</label>
+                </div>
+
+                <div class="floating-group">
+                    <textarea
+                        onchange="window.updateReminderField(${index}, 'notes', this.value)"
+                        placeholder=" ">${reminder.notes || ""}</textarea>
+                    <label>Notes</label>
+                </div>
+
+                <div class="edit-grid-2">
+                    <div class="floating-group">
+                        <input
+                            type="date"
+                            value="${reminder.dateRequested || ""}"
+                            onchange="window.updateReminderField(${index}, 'dateRequested', this.value)"
+                            placeholder=" ">
+                        <label>Date Requested</label>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <label>
+                            <input
+                                type="checkbox"
+                                ${reminder.completed ? "checked" : ""}
+                                onchange="window.updateReminderField(${index}, 'completed', this.checked)">
+                            Completed
+                        </label>
+                    </div>
+                </div>
+
+                <div class="reminder-actions">
+                    <button
+                        type="button"
+                        class="btn danger"
+                        onclick="window.deleteReminder(${index})">
+                        Delete Reminder
+                    </button>
+                </div>
+
+            </div>
+        `)
+        .join("");
+}
+
+window.updateReminderField = (index, field, value) => {
+    const reminders =
+        draft[currentPlatform]?.reminders || [];
+
+    if (!reminders[index]) return;
+
+    reminders[index][field] = value;
+};
+
+window.deleteReminder = (index) => {
+    const reminders =
+        draft[currentPlatform]?.reminders || [];
+
+    reminders.splice(index, 1);
+
+    renderReminders();
+};
+
+function setupReminderEvents() {
+    const addReminderBtn =
+        document.getElementById("addReminderBtn");
+
+    if (!addReminderBtn) return;
+
+    addReminderBtn.addEventListener("click", () => {
+        if (!draft[currentPlatform]) {
+            draft[currentPlatform] = {};
+        }
+
+        const reminder =
+            addReminderToPlatform(draft[currentPlatform]);
+
+        renderReminders();
+
+        console.log("Reminder created:", reminder);
+    });
 }
 
 // ==============================

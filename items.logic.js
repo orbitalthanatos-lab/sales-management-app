@@ -366,3 +366,141 @@ export function extractUploadId(text) {
 
   return match[1].trim();
 }
+
+// ==============================
+// DEFAULT PLATFORM DATA
+// ==============================
+
+export function createDefaultPlatformData() {
+  return {
+    enabled: false,
+    title: "",
+    description: "",
+    price: 0,
+    buy: 0,
+    fees: 0,
+    profit: 0,
+    url: "",
+    images: [],
+
+    // Customer reminders
+    reminders: []
+  };
+}
+
+// ==============================
+// DEFAULT REMINDER DATA
+// ==============================
+
+export function createDefaultReminder() {
+  return {
+    id: crypto.randomUUID(),
+    customerName: "",
+    contactInfo: "",
+    productRequested: "",
+    notes: "",
+    dateRequested: new Date().toISOString().split("T")[0],
+    completed: false,
+    createdAt: new Date().toISOString()
+  };
+}
+
+// ==============================
+// REMINDER HELPERS
+// ==============================
+
+export function ensurePlatformReminders(platformData) {
+  if (!platformData.reminders) {
+    platformData.reminders = [];
+  }
+
+  return platformData.reminders;
+}
+
+export function addReminderToPlatform(platformData) {
+  const reminders = ensurePlatformReminders(platformData);
+
+  const reminder = createDefaultReminder();
+
+  reminders.push(reminder);
+
+  return reminder;
+}
+
+export function deleteReminderFromPlatform(platformData, reminderId) {
+  const reminders = ensurePlatformReminders(platformData);
+
+  platformData.reminders = reminders.filter(
+    reminder => reminder.id !== reminderId
+  );
+}
+
+export function getReminderById(platformData, reminderId) {
+  const reminders = ensurePlatformReminders(platformData);
+
+  return reminders.find(
+    reminder => reminder.id === reminderId
+  );
+}
+
+// ==============================
+// REMINDERS UI
+// ==============================
+
+export function renderRemindersSection(platformData = {}) {
+  const reminders = platformData.reminders || [];
+
+  const remindersHtml = reminders
+    .map((reminder) => {
+      const completedBadge = reminder.completed
+        ? '<span class="reminder-status completed">Completed</span>'
+        : '<span class="reminder-status pending">Pending</span>';
+
+      return `
+        <div class="reminder-card" data-reminder-id="${reminder.id}">
+          <div class="reminder-card-header">
+            <strong>${reminder.customerName || "Unnamed Customer"}</strong>
+            ${completedBadge}
+          </div>
+
+          <div class="reminder-card-body">
+            <div><strong>Contact:</strong> ${reminder.contactInfo || "-"}</div>
+            <div><strong>Product:</strong> ${reminder.productRequested || "-"}</div>
+            <div><strong>Date:</strong> ${reminder.dateRequested || "-"}</div>
+            <div><strong>Notes:</strong> ${reminder.notes || "-"}</div>
+          </div>
+
+          <div class="reminder-card-actions">
+            <button
+              type="button"
+              class="btn btn-sm btn-danger delete-reminder-btn"
+              data-reminder-id="${reminder.id}">
+              Delete
+            </button>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+
+  return `
+    <div class="reminders-section">
+      <div class="reminders-section-header">
+        <h4>Reminders</h4>
+        <button
+          type="button"
+          class="btn btn-secondary add-reminder-btn">
+          Add Reminder
+        </button>
+      </div>
+
+      <div class="reminders-list">
+        ${
+          reminders.length > 0
+            ? remindersHtml
+            : '<p class="empty-reminders">No reminders yet.</p>'
+        }
+      </div>
+    </div>
+  `;
+}

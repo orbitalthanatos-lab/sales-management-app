@@ -167,6 +167,7 @@ function startShowcaseCarousel() {
 
 startShowcaseCarousel();
 
+/*
 // ==============================
 // SHOW / HIDE PASSWORD
 // ==============================
@@ -196,6 +197,7 @@ if (passwordInput && togglePasswordBtn) {
     );
   });
 }
+*/
 
 // ==============================
 // FORGOT PASSWORD
